@@ -1,0 +1,21 @@
+<html>
+
+<head>
+    <title>ecom</title>
+</head>
+
+<body>
+
+    <%allcat.forEach(function(cat){%>
+        <a href="/products/<%=cat._id %>">
+            <%=cat.name%>
+        </a>
+
+        <%=cat.status%>
+            <%})%>
+                <button><a href="/add">click to add categorie</a></button>
+                <button><a href="/products">click to add products</a></button>
+
+</body>
+
+</html>
