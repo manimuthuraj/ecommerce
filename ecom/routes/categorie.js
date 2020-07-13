@@ -3,13 +3,14 @@ var router = express.Router();
 var categorie = require("../models/categorie")
 var product = require("../models/product")
 
-//displaying categories
+//displaying categories 
 router.get("/", async function(req, res) {
     try {
         var allcat = await categorie.find({
             status: { $ne: 'block' } //fetching only active categorie
         })
-        res.render("ecom", { allcat: allcat })
+        var products = await product.find({})
+        res.render("ecom", { allcat: allcat, products: products })
     } catch (e) {
         console.log(e)
         res.redirect("/")
@@ -23,10 +24,38 @@ router.get("/add", function(req, res) {
 
 //adding new categorie
 router.post("/add", async function(req, res) {
-    name = req.body.name
-    status = req.body.status
     try {
-        var cat = await categorie.create({ name: name, status: status })
+        var cat = await categorie.create(req.body.cat)
+        res.redirect("/")
+    } catch (e) {
+        console.log(e)
+        res.redirect("/")
+    }
+})
+
+router.get("/categorie/:id", async function(req, res) {
+    try {
+        var cat = await categorie.findById(req.params.id)
+        res.render("editcat", { cat: cat })
+    } catch (e) {
+        console.log(e)
+        res.redirect("/")
+    }
+})
+
+router.put("/categorie/:id", async function(req, res) {
+    try {
+        updatedcat = await categorie.findByIdAndUpdate(req.params.id, req.body.cat)
+        res.redirect("/")
+    } catch (e) {
+        console.log(e)
+        res.redirect("/")
+    }
+})
+
+router.delete("/categorie/:id", async function(req, res) {
+    try {
+        var dele = await categorie.findByIdAndRemove(req.params.id)
         res.redirect("/")
     } catch (e) {
         console.log(e)

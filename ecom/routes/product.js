@@ -15,21 +15,64 @@ router.get("/products", async function(req, res) {
 })
 
 //new product addition
-router.post("/products", function(req, res) {
-    product.create(req.body.product, function(err, pro) { //creating new product
-        if (err) {
-            console.log(err)
-        } else {
-            res.redirect("/")
-        }
-    })
+router.post("/products", async function(req, res) {
+    try {
+        var pro = await product.create(req.body.product)
+        res.redirect("/")
+    } catch (e) {
+        console.log(e)
+        res.redirect("/")
+    }
 })
 
 //displaying product based on categorie
 router.get("/products/:id", async function(req, res) {
-    var id = req.params.id
-    var products = await product.find({ categorie: id })
-    res.render("display", { products: products })
+    try {
+        var id = req.params.id
+        var products = await product.find({ categorie: id })
+        var cate = await categorie.find({ _id: id })
+        res.render("display", { products: products, cate: cate })
+    } catch (e) {
+        console.log(e)
+        res.redirect("/")
+    }
+})
+
+//edit products
+router.get("/products/:id/edit", async function(req, res) {
+    try {
+        var cate = await categorie.find({})
+        var updateproduct = await product.findById(req.params.id) //finding product based on id 
+        res.render("editproduct", { product: updateproduct, cate: cate })
+
+    } catch (e) {
+        console.log(e)
+        res.redirect("/")
+    }
+})
+
+//updating product details
+router.put("/products/:id", async function(req, res) {
+    try {
+        var updatedproduct = await product.findByIdAndUpdate(req.params.id, req.body.product) //updating product based on id
+        res.redirect("/")
+    } catch (e) {
+        console.log(e)
+        res.redirect("/")
+    }
+})
+
+//deleting products
+router.delete("/products/:id", function(req, res) {
+    product.findByIdAndRemove(req.params.id, function(err) { //finding prosuct based on id and removing from db
+        if (err) {
+            console.log(err)
+            res.redirect("/")
+        } else {
+            res.redirect("/")
+        }
+    })
+
 })
 
 module.exports = router

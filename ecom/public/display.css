@@ -1,0 +1,8 @@
+.container {
+    margin: 5vh;
+}
+
+.thumbnail {
+    box-shadow: 1px 1px 2px 2px orange;
+    height: 100%;
+}
