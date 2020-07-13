@@ -1,24 +1,28 @@
-<form action="/products" method="POST">
-    <div>
-        productname <input type="text" placeholder="name" name="product[name]">
-    </div>
-    <div>
-        <label for="cars">Choose categories:</label>
+<%- include("./partials/header") %>
 
-        <select name="product[categorie]">
+    <form action="/products" method="POST">
+        <div>
+            productname <input type="text" placeholder="name" name="product[name]">
+        </div>
+        <div>
+            <label for="cars">Choose categories:</label>
+
+            <select name="product[categorie]">
             <%cate.forEach(function(cate){%>
                 <option value="<%=cate._id%>"><%=cate.name%></option>
             <%})%>
 </select>
-        <!--</div>
+            <!--</div>
     <div>
         updated dated <input type="text" placeholder="yyyy/mm/dd" name="product[udate]">
     </div>-->
-        <div>
-            quantity <input type="number" placeholder="quantity" name="product[quantity]">
-        </div>
-        <div>
-            price <input type="number" placeholder="price" name="product[price]">
-        </div>
-        <button>submit</button>
-</form>
+            <div>
+                quantity <input type="number" placeholder="quantity" name="product[quantity]">
+            </div>
+            <div>
+                price <input type="number" placeholder="price" name="product[price]">
+            </div>
+            <button>submit</button>
+    </form>
+
+    <%- include("./partials/footer") %>
