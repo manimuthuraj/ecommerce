@@ -5,7 +5,7 @@
             <div>
                 Add new products
             </div>
-            <form action="/products" method="POST">
+            <form action="/products" method="POST" id="myform">
                 <div class="form-group">
                     <label for="Name">Name</label>
                     <input type="name" class="form-control" id="name" name="product[name]" placeholder="Name">
@@ -30,11 +30,30 @@
                 </div>
 
                 <div>
-                    <button type="submit" class="btn btn-warning ">Submit</button>
+                    <button type="submit" id="submit" class="btn btn-warning ">Submit</button>
                 </div>
+                <p id="required"></p>
             </form>
         </div>
     </div>
+
+    <script>
+        $('#submit').on('click', function() {
+            if ($("#myform #name").val() == "") {
+                $("#required").text("*All fields are required")
+                return false
+            }
+            if ($("#myform #Quantity").val() == "") {
+                $("#required").text("*All fields are required")
+                return false
+            }
+            if ($("#myform #price").val() == "") {
+                $("#required").text("*All fields are required")
+                return false
+            }
+        });
+    </script>
+
 
     <!-- <form action="/products" method="POST">
         <div>

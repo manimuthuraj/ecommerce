@@ -31,7 +31,13 @@ router.get("/products/:id", async function(req, res) {
         var id = req.params.id
         var products = await product.find({ categorie: id })
         var cate = await categorie.find({ _id: id })
-        res.render("display", { products: products, cate: cate })
+        var user = "admin"
+        if (user) {
+            user = user
+        } else {
+            var user = ''
+        }
+        res.render("display", { products: products, cate: cate, user: user })
     } catch (e) {
         console.log(e)
         res.redirect("/")

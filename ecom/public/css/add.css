@@ -11,3 +11,7 @@
 .container {
     margin: 10%;
 }
+
+#required {
+    color: red;
+}

@@ -1,0 +1,46 @@
+<%- include("../partials/header") %>
+    <link rel="stylesheet" href="/css/ecom.css" type="text/css">
+    <div class="container">
+        <div class="jumbotron">
+            <%allcat.forEach(function(cat){%>
+                <a class="btn btn-sm btn-warning" href="/products/<%=cat._id %>">
+                    <h6>
+                        <%=cat.name%>
+                    </h6>
+                    <h6>
+                        <%=cat.status%>
+                    </h6>
+                </a>
+                <%})%>
+        </div>
+        <a class="btn btn-primary" href="/add">click to add categorie</a>
+        <a class="btn btn-primary" href="/products">click to add products</a>
+    </div>
+    <hr>
+
+    <div class="container">
+        <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+            <% products.forEach(function(x){%>
+                <div class="cl-md-3 col-sm-6 col-lg-4">
+                    <a href="/products/<%=x._id %>/edit">
+                        <div class="thumbnail" style="width: 90%;box-shadow: 1px 1px 2px 2px rgb(204, 182, 142);">
+                            <div class="caption">
+                                <p>name</p>
+                                <p>
+                                    <%=x.name%>
+                                </p>
+                                quantity:
+                                <%=x.quantity%>
+                                    <p> price:
+                                        <%=x.price%>
+                                    </p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <% }) %>
+        </div>
+    </div>
+    </div>
+
+    <%- include("../partials/footer") %>

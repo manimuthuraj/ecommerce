@@ -1,0 +1,59 @@
+
+var products = await product.aggregate([{
+                $lookup: {
+                    from: "categories",
+                    localField: "categorie",
+                    foreignField: "_id",
+                    as: "cat"
+                }
+            },
+            {
+                $match: {
+                    'cat.status': { $ne: "block" }
+                }
+            }
+        ])
+        console.log(products)
+
+
+        //admin
+        admin dash board
+        try {
+        var allcat = await categorie.find({
+            status: {} //fetching only active categorie
+        })
+        var products = await product.find({})
+        res.render("ecom", { allcat: allcat, products: products })
+    } catch (e) {
+        console.log(e)
+        res.redirect("/")
+    }
+})
+
+//original
+try {
+        var allcat = await categorie.find({
+            status: { $ne: 'block' } //fetching only active categorie
+        })
+        var products = await product.aggregate([{
+                $lookup: {
+                    from: "categories",
+                    localField: "categorie",
+                    foreignField: "_id",
+                    as: "cat"
+                }
+            },
+            {
+                $match: {
+                    'cat.status': { $ne: "block" }
+                }
+            }
+        ])
+        console.log(products)
+        res.render("ecom", { allcat: allcat, products: products })
+    } catch (e) {
+        console.log(e)
+        res.redirect("/")
+    }
+})
+

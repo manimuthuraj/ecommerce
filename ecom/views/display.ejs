@@ -3,34 +3,45 @@
     <div class="container">
         <% cate.forEach(function(x){%>
             <header class="jumbotron">
-                <a href="/categorie/<%=x._id%>">
-                    <div class="container">
-                        <h1>
-                            <%=x.name%>
-                        </h1>
-                    </div>
-                </a>
-                <%})%>
+                <!-- <a href="/categorie/<%=x._id%>"> -->
+                <div class="container">
+                    <h1>
+                        <%=x.name%>
+                    </h1>
+                </div>
+                <%if(user){%>
+                    <% if(user=='admin'){ %>
+                        <a class="btn btn-success" href="/categorie/<%=x._id%>">Edit</a>
+                        <% } %>
+                            <%}%>
+
+                                <!-- </a>-->
+                                <%})%>
             </header>
             <div class="row text-center" style="display:flex; flex-wrap: wrap;">
                 <% products.forEach(function(x){%>
                     <div class="cl-md-3 col-sm-6 col-lg-4">
-                        <a href="/products/<%=x._id %>/edit">
-                            <div class="thumbnail" style="width: 90%;">
+                        <!-- <a href="/products/<%=x._id %>/edit"> -->
+                        <div class="thumbnail" style="width: 90%;">
+                            <%if(user){%>
+                                <% if(user=='admin'){ %>
+                                    <a class="btn btn-success" href="/products/<%=x._id %>/edit">Edit</a>
+                                    <% } %>
+                                        <%}%>
+                                            <div class="caption">
+                                                <p>name</p>
+                                                <p>
+                                                    <%=x.name%>
+                                                </p>
+                                                quantity:
+                                                <%=x.quantity%>
+                                                    <p> price:
+                                                        <%=x.price%>
+                                                    </p>
+                                            </div>
+                        </div>
 
-                                <div class="caption">
-                                    <p>name</p>
-                                    <p>
-                                        <%=x.name%>
-                                    </p>
-                                    quantity:
-                                    <%=x.quantity%>
-                                        <p> price:
-                                            <%=x.price%>
-                                        </p>
-                                </div>
-                            </div>
-                        </a>
+                        <!--</a>-->
                     </div>
                     <% }) %>
             </div>

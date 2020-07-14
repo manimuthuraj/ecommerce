@@ -9,8 +9,27 @@ router.get("/", async function(req, res) {
         var allcat = await categorie.find({
             status: { $ne: 'block' } //fetching only active categorie
         })
-        var products = await product.find({})
-        res.render("ecom", { allcat: allcat, products: products })
+        var products = await product.aggregate([{
+                $lookup: {
+                    from: "categories",
+                    localField: "categorie",
+                    foreignField: "_id",
+                    as: "cat"
+                }
+            },
+            {
+                $match: {
+                    'cat.status': { $ne: "block" }
+                }
+            }
+        ])
+        var user = "admin"
+        if (user) {
+            user = user
+        } else {
+            var user = ''
+        }
+        res.render("ecom", { allcat: allcat, products: products, user: user })
     } catch (e) {
         console.log(e)
         res.redirect("/")

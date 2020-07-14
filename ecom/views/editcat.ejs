@@ -5,13 +5,13 @@
             <div>
                 Edit categorie
             </div>
-            <form action="/categorie/<%=cat._id%>?_method=PUT" method="POST">
+            <form action="/categorie/<%=cat._id%>?_method=PUT" method="POST" id="myform">
                 <div class="form-group">
                     <label for="Name">Name</label>
                     <input type="name" class="form-control" id="name" name="cat[name]" value="<%=cat.name%>" placeholder="Name">
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="cat[status]" id="active" value="active">
+                    <input class="form-check-input" type="radio" name="cat[status]" id="active" value="active" checked>
                     <label class="form-check-label" for="active">Active</label>
                 </div>
                 <div class="form-check">
@@ -19,13 +19,25 @@
                     <label class="form-check-label " for="block"> Block</label>
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-warning ">Submit</button>
+                    <button type="submit" id="submit" class="btn btn-warning ">Submit</button>
                 </div>
+                <p id="required"></p>
             </form>
         </div>
         <form id="delete" action="/categorie/<%= cat._id %>?_method=DELETE" method="post">
             <button class="btn btn-danger btn-sm">DELETE</button>
         </form>
     </div>
+    <script>
+        var name = $("#myform input[name=name]").val()
+        var status = document.getElementsByName("cat[status]");
+        $('#submit').on('click', function() {
+            if ($("#myform #name").val() == "") {
+                $("#required").text("*All fields are required")
+                return false
+            }
+        });
+    </script>
+
 
     <%- include("./partials/footer") %>
