@@ -5,7 +5,7 @@ var product = require("../models/product")
 
 
 //admin
-router.get("/admin", async function(req, res) {
+router.get("/admin", isAdmin, async function(req, res) {
     try {
         var allcat = await categorie.find({})
         var products = await product.find({})
@@ -15,5 +15,20 @@ router.get("/admin", async function(req, res) {
         res.redirect("/")
     }
 })
+
+
+async function isAdmin(req, res, next) {
+    if (req.isAuthenticated()) {
+        id = await (req.user.role)
+        if (id == 'admin') {
+            next()
+        } else {
+            res.redirect("/")
+        }
+    } else {
+        res.redirect("/")
+    }
+}
+
 
 module.exports = router

@@ -13,7 +13,8 @@ var productSchema = new mongoose.Schema({
     },
     udate: { type: Date },
     quantity: { type: Number, required: true },
-    price: { type: Number, required: true }
+    price: { type: Number, required: true },
+    image: { type: String }
 })
 
 module.exports = mongoose.model("product", productSchema)

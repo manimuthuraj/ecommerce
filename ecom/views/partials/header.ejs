@@ -10,5 +10,42 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 </head>
+<style>
+    .navbar {
+        margin: -1%;
+        margin-top: -1%;
+        background-color: #f0ad4e;
+    }
+    
+    .navbar-default {
+        border-radius: 0;
+    }
+</style>
 
 <body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                <a class="navbar-brand" href="/">Ecom</a>
+            </div>
+            <div class="collapse navbar-collapse in" id="myNavbar">
+                <ul class="nav navbar-nav navbar-right">
+                    <% if(!currentUser){ %>
+                        <li><a href="/login">Sign in</a></li>
+                        <li><a href="/register">Signup</a></li>
+                        <% }else{ %>
+                            <li><a href="#">Singned in as
+                                <%= currentUser.username %></a>
+                            </li>
+                            <li><a href="/logout">Logout</a></li>
+                            <% } %>
+                </ul>
+            </div>
+        </div>
+    </nav>

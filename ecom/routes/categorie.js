@@ -23,13 +23,7 @@ router.get("/", async function(req, res) {
                 }
             }
         ])
-        var user = "admin"
-        if (user) {
-            user = user
-        } else {
-            var user = ''
-        }
-        res.render("ecom", { allcat: allcat, products: products, user: user })
+        res.render("ecom", { allcat: allcat, products: products })
     } catch (e) {
         console.log(e)
         res.redirect("/")
@@ -72,7 +66,7 @@ router.put("/categorie/:id", async function(req, res) {
     }
 })
 
-router.delete("/categorie/:id", async function(req, res) {
+router.delete("/categorie/:id", isAdmin, async function(req, res) {
     try {
         var dele = await categorie.findByIdAndRemove(req.params.id)
         res.redirect("/")
@@ -81,5 +75,19 @@ router.delete("/categorie/:id", async function(req, res) {
         res.redirect("/")
     }
 })
+
+
+async function isAdmin(req, res, next) {
+    if (req.isAuthenticated()) {
+        id = await (req.user.role)
+        if (id == 'admin') {
+            next()
+        } else {
+            res.redirect("/")
+        }
+    } else {
+        res.redirect("/")
+    }
+}
 
 module.exports = router

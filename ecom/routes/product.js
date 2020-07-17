@@ -2,6 +2,8 @@ var express = require("express")
 var router = express.Router()
 var product = require("../models/product")
 var categorie = require("../models/categorie")
+var multer = require('multer')
+var upload = multer({ dest: 'uploads' })
 
 // new product addition
 router.get("/products", async function(req, res) {
@@ -15,9 +17,11 @@ router.get("/products", async function(req, res) {
 })
 
 //new product addition
-router.post("/products", async function(req, res) {
+router.post("/products", upload.single('picture'), async function(req, res) {
     try {
-        var pro = await product.create(req.body.product)
+        var pro = { name: req.body.name, categorie: req.body.categorie, quantity: req.body.quantity, price: req.body.price, image: req.file }
+        console.log(pro)
+        var pro = await product.create(pro)
         res.redirect("/")
     } catch (e) {
         console.log(e)
@@ -31,13 +35,7 @@ router.get("/products/:id", async function(req, res) {
         var id = req.params.id
         var products = await product.find({ categorie: id })
         var cate = await categorie.find({ _id: id })
-        var user = "admin"
-        if (user) {
-            user = user
-        } else {
-            var user = ''
-        }
-        res.render("display", { products: products, cate: cate, user: user })
+        res.render("display", { products: products, cate: cate })
     } catch (e) {
         console.log(e)
         res.redirect("/")
@@ -80,5 +78,18 @@ router.delete("/products/:id", function(req, res) {
     })
 
 })
+
+async function isAdmin(req, res, next) {
+    if (req.isAuthenticated()) {
+        id = await (req.user.role)
+        if (id == 'admin') {
+            next()
+        } else {
+            res.redirect("/")
+        }
+    } else {
+        res.redirect("/")
+    }
+}
 
 module.exports = router

@@ -8,13 +8,15 @@
                 </a>
                 <%})%>
         </div>
-        <%if(user){%>
-            <% if(user=='admin'){ %>
-                <a class="btn btn-success" href="/admin">DashBoard</a>
-                <% } %>
+        <%if(!currentUser){%>
+            <p></p>
+            <%}else{%>
+                <%  if(currentUser.role=='admin'){%>
+                    <a class="btn btn-success" href="/admin">DashBoard</a>
                     <%}%>
-                        <!-- <a class="btn btn-primary" href="/add">click to add categorie</a> -->
-                        <!-- <a class="btn btn-primary" href="/products">click to add products</a> -->
+                        <%}%>
+                            <!-- <a class="btn btn-primary" href="/add">click to add categorie</a> -->
+                            <!-- <a class="btn btn-primary" href="/products">click to add products</a> -->
     </div>
     <hr>
 
@@ -34,6 +36,7 @@
                                 <p> price:
                                     <%=x.price%>
                                 </p>
+                                <img src="http://localhost:3000/5b2c07712c0e3d661884d1cf50771179">
                         </div>
                     </div>
                     </a>
