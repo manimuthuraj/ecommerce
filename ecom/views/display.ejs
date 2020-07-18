@@ -8,6 +8,7 @@
                     <h1>
                         <%=x.name%>
                     </h1>
+                    <a href="/products/<%=x._id%>?767">bjb</a>
                 </div>
                 <%if(!currentUser){%>
                     <p></p>
@@ -24,7 +25,7 @@
                 <% products.forEach(function(x){%>
                     <div class="cl-md-3 col-sm-6 col-lg-4">
                         <!-- <a href="/products/<%=x._id %>/edit"> -->
-                        <div class="thumbnail" style="width: 90%;">
+                        <div class="thumbnail" style="width: 90%;height: 90%;">
                             <%if(!currentUser){%>
                                 <p></p>
                                 <%}else{%>
@@ -43,7 +44,7 @@
                                                         <p> price:
                                                             <%=x.price%>
                                                         </p>
-                                                        <img src="http://localhost:3000/5b2c07712c0e3d661884d1cf50771179">
+                                                        <img src="http://localhost:3000/<%=x.image%>" width="80%" height="80%">
                                                 </div>
                         </div>
 

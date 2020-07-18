@@ -2,36 +2,42 @@ var express = require("express")
 var router = express.Router();
 var passport = require("passport")
 var euser = require("../models/euser")
+var multer = require('multer')
+var upload = multer({ dest: 'uploads' })
+var middleware = require("../middleware/index")
 
-router.get("/register", function(req, res) {
+
+//registration route
+router.get("/register", middleware.islogedin, function(req, res) {
     res.render("auth/register")
 })
 
-router.post("/register", function(req, res) {
-    console.log(req.body.password)
-    var newUser = new euser({ username: req.body.username })
-    euser.register(newUser, req.body.password, function(err, user) {
-        if (err) {
-            console.log(err)
-            return res.render("auth/register")
-        }
-        passport.authenticate("local")(req, res, function() {
-            res.redirect("/")
-        })
-    })
+//adding user to database
+router.post("/register", middleware.islogedin, upload.single('picture'), async function(req, res) {
+    try {
+        var use = { username: req.body.username, password: req.body.password, image: req.file.filename }
+        console.log(use)
+        var eu = await euser.create(use)
+        res.redirect("/login")
+    } catch (e) {
+        console.log(e)
+        res.redirect("/")
+    }
 })
 
-router.get("/login", function(req, res) {
+//login
+router.get("/login", middleware.islogedin, function(req, res) {
     res.render("auth/register")
 })
 
-router.post("/login", passport.authenticate("local", {
+router.post("/login", middleware.islogedin, passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login"
 }), function(req, res) {
 
 })
 
+//logout
 router.get("/logout", function(req, res) {
     req.logout();
     res.redirect("/")

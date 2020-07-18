@@ -1,0 +1,8 @@
+{
+    "name": "An Ecommerce website",
+    "version": "1.0.0",
+    "description": "Ecommerce website",
+    "template": {
+        "forceLanguage": "en"
+    }
+}

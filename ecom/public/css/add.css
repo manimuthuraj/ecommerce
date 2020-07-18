@@ -1,17 +1,24 @@
 .add {
     width: 40%;
     height: 40%;
-    margin: 25px;
+    margin-left: 25px;
+    margin-top: 2%;
     border: 1px solid #FF9900;
     padding: 5vh;
     box-shadow: #FF9900 1px 1px 2px 2px;
     border-radius: 3px;
 }
 
-.container {
+
+/*.container {
     margin: 10%;
-}
+}*/
 
 #required {
     color: red;
+}
+
+img {
+    margin-left: 25%;
+    margin-top: 25%;
 }

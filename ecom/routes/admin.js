@@ -2,19 +2,10 @@ var express = require("express")
 var router = express.Router();
 var categorie = require("../models/categorie")
 var product = require("../models/product")
+var controller = require("../controllers/admin")
 
-
-//admin
-router.get("/admin", isAdmin, async function(req, res) {
-    try {
-        var allcat = await categorie.find({})
-        var products = await product.find({})
-        res.render("admin/admin", { allcat: allcat, products: products })
-    } catch (e) {
-        console.log(e)
-        res.redirect("/")
-    }
-})
+//admin dashboard route 
+router.get("/admin", controller.Dashboard)
 
 
 async function isAdmin(req, res, next) {

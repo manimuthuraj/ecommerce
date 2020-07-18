@@ -1,11 +1,11 @@
 <%- include("../partials/header") %>
     <link rel="stylesheet" href="/css/add.css" type="text/css">
-    <div class="container">
-        <div class="add">
+    <div class="container row">
+        <div class="add col-md-6">
             <div>
                 Register
             </div>
-            <form action="/register" method="POST" id="myform">
+            <form action="/register" method="POST" id="myform" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="name">Name</label>
                     <input type="text" required class="form-control" id="name" name="username" placeholder="Name">
@@ -14,6 +14,11 @@
                 <div class="form-group">
                     <label for="password">password</label>
                     <input type="password" required class="form-control" id="password" name="password" placeholder="password">
+                </div>
+
+                <div class="form-group">
+                    <label for="input-files">Profile picture</label>
+                    <input type="file" required name="picture" id="input-files" class="form-control-file border" />
                 </div>
 
                 <div>
@@ -42,6 +47,9 @@
                     <p id="required"></p>
                 </form>
             </div>
+        </div>
+        <div class="col-md-6">
+            <img src="/css/Ecommerce-High-Quality-PNG.png" alt="">
         </div>
     </div>
 

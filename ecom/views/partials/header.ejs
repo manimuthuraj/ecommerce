@@ -20,6 +20,15 @@
     .navbar-default {
         border-radius: 0;
     }
+    
+    .chip {
+        float: left;
+        margin: 0 10px 0 -25px;
+        margin-left: 1px;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+    }
 </style>
 
 <body>
@@ -43,6 +52,7 @@
                             <li><a href="#">Singned in as
                                 <%= currentUser.username %></a>
                             </li>
+                            <img class="chip" src="http://localhost:3000/<%=currentUser.image%>" alt="DP" width="96" height="96">
                             <li><a href="/logout">Logout</a></li>
                             <% } %>
                 </ul>

@@ -9,4 +9,4 @@ var CategorieSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model("categorie", CategorieSchema)
+module.exports = mongoose.model("categorie", CategorieSchema) //exporting categorie model

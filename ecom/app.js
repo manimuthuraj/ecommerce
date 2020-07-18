@@ -14,7 +14,7 @@ var multer = require('multer')
 var upload = multer({ dest: 'uploads' })
 
 app.use(bodyparse.urlencoded({ extended: true }))
-mongoose.connect("mongodb+srv://yelp:yelp@cluster0-lfy4s.mongodb.net/yelp?retryWrites=true&w=majority", { useNewUrlParser: true })
+require("./config/dbconnection")
 var categorie = require("./models/categorie")
 var product = require("./models/product")
 var euser = require("./models/euser")
@@ -31,8 +31,36 @@ app.use(require("express-session")({
 app.use(passport.initialize())
 app.use(passport.session())
 passport.use(new LocalStrategy(euser.authenticate()))
-passport.serializeUser(euser.serializeUser())
-passport.deserializeUser(euser.deserializeUser())
+    //passport.serializeUser(euser.serializeUser())
+
+
+passport.use(new LocalStrategy(
+    function(username, password, done) {
+        euser.findOne({ username: username }, function(err, user) {
+            if (err) { return done(err); }
+            if (!user) {
+                return done(null, false, console.log("invalid user"));
+            }
+            if (password != user.password) {
+                return done(null, false, console.log("invalid password"));
+            }
+            return done(null, user);
+        });
+    }
+));
+
+passport.serializeUser(function(user, done) {
+    done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+    euser.findById(id, function(err, user) {
+        done(err, user);
+    });
+});
+
+
+//passport.deserializeUser(euser.deserializeUser())
 app.use(function(req, res, next) {
     res.locals.currentUser = req.user;
     next();
@@ -44,6 +72,7 @@ app.use(productRoute)
 app.use(adminRoute)
 app.use(authRoute)
 
-app.listen(3000, function() {
+const PORT = 3000 || process.env.PORT
+app.listen(PORT, function() {
     console.log("started")
 })

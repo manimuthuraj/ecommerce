@@ -6,16 +6,14 @@
                 Add new products
             </div>
             <form action="/products" method="POST" id="myform" enctype="multipart/form-data">
-
                 <div class=" form-group ">
                     <label for="Name ">Name</label>
-                    <input type="name" class="form-control " id="name" name="name" placeholder="Name ">
+                    <input type="text" class="form-control " id="name " name="name" placeholder="Name ">
                 </div>
-
                 <div class="form-group ">
-
                     <label for="categorie ">Select categorie</label>
-                    <select class="form-control " id="categorie " name="categorie ">
+
+                    <select class="form-control " id="categorie " name="categorie">
                     <%cate.forEach(function(cate){%>
                         <option value="<%=cate._id%>">
                 <%=cate.name%>
