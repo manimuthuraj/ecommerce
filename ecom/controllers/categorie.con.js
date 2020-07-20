@@ -8,35 +8,25 @@ var Allcategorie = async function(req, res) {
         var allcat = await categorie.find({
             status: { $ne: 'block' } //fetching only active categorie
         })
-        if (req.query.search) {
-            function escapeRegex(text) {
-                return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-            };
-            const regex = new RegExp(escapeRegex(req.query.search), 'gi');
-            var products = await product.find({ name: regex })
-                //console.log(products)
-            res.render("ecom", { allcat: allcat, products: products })
-
-        } else {
-
-            var products = await product.aggregate([{
-                        $lookup: {
-                            from: "categories",
-                            localField: "categorie",
-                            foreignField: "_id",
-                            as: "cat"
-                        }
-                    },
-                    {
-                        $match: {
-                            'cat.status': { $ne: "block" }
-                        }
+        var products = await product.aggregate([{
+                    $lookup: {
+                        from: "categories",
+                        localField: "categorie",
+                        foreignField: "_id",
+                        as: "cat"
                     }
-                ])
-                //console.log(req.query.search)
-                //console.log(req.path)
-            res.render("ecom", { allcat: allcat, products: products })
-        }
+                },
+                {
+                    $match: {
+                        'cat.status': { $ne: "block" }
+                    }
+                }
+            ])
+            //console.log(req.query.search)
+            //console.log(req.path)
+        res.render("ecom", { allcat: allcat, products: products })
+        return categorie.find({})
+
     } catch (e) {
         console.log(e)
         res.redirect("/")

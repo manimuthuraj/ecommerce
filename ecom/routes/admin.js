@@ -8,18 +8,4 @@ var controller = require("../controllers/admin")
 router.get("/admin", controller.Dashboard)
 
 
-async function isAdmin(req, res, next) {
-    if (req.isAuthenticated()) {
-        id = await (req.user.role)
-        if (id == 'admin') {
-            next()
-        } else {
-            res.redirect("/")
-        }
-    } else {
-        res.redirect("/")
-    }
-}
-
-
 module.exports = router

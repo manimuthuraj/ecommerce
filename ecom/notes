@@ -57,3 +57,20 @@ try {
     }
 })
 
+<div class="container" id="con">\
+                                <div class="row text-center" style="display:flex; flex-wrap: wrap;"\
+                                    <div class="cl-md-3 col-sm-6 col-lg-4">\
+                                        <div class="thumbnail" style="width: 80%;height: 80%;;box-shadow: 1px 1px 2px 2px rgb(204, 182, 142);"> \
+                                            <div class="caption">\
+                                                <p>name</p>\
+                                                 <p id="name"> ' + e.name + '\
+                                                 </p>\
+                                                 quantity:' + e.quantity + '\
+                                                 <p id="price"> price:' + e.price + '\
+                                                 </p>\
+                                                <img src="http://localhost:3000/' + e.image + '" width="50%" height="50%">\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                 </div>\
+                            </div>\
