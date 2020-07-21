@@ -3,7 +3,8 @@ var router = express.Router();
 var categorie = require("../models/categorie")
 var product = require("../models/product")
 var controller = require("../controllers/categorie.con")
-var middleware = require("../middleware/index")
+var middleware = require("../middleware/index");
+const { response } = require("express");
 
 /**
  * @api{get}/ categorie information
@@ -30,24 +31,13 @@ router.put("/categorie/:id", middleware.isAdmin, controller.UpdateCategorie)
 router.delete("/categorie/:id", middleware.isAdmin, controller.deleteCategorie)
 
 //search
-router.post("/search", function(req, res) {
-    product.find({ name: new RegExp(req.body.name, 'i') }, function(err, response) {
-        res.json(response);
-    });
-})
+router.get("/search", controller.searchCategorie)
 
 //range
-router.post("/range", function(req, res) {
-    var price1 = parseInt(req.body.price1)
-    var price2 = parseInt(req.body.price2)
-        // var last = new Date()
-        // last.setDate(last.getDate() - 30);
-        // console.log(last)
-        //var dates = product.find({ created_date: { $gte: last } })
-        //console.log(dates)
-    product.find({ price: { $gt: price1, $lt: price2 } }, function(err, response) {
-        res.json(response);
-    });
-})
+router.get("/range", controller.rangeCategorie)
 
+// sort price high to low,low to high
+router.get("/sort", controller.sortCategorie)
+
+router.get("/sort/date", controller.dsortCategorie)
 module.exports = router

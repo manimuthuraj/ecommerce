@@ -21,6 +21,7 @@ router.post("/register", middleware.islogedin, upload.single('picture'), async f
         res.redirect("/login")
     } catch (e) {
         console.log(e)
+        req.flash("error", e)
         res.redirect("/")
     }
 })
@@ -32,14 +33,15 @@ router.get("/login", middleware.islogedin, function(req, res) {
 
 router.post("/login", middleware.islogedin, passport.authenticate("local", {
     successRedirect: "/",
-    failureRedirect: "/login"
-}), function(req, res) {
-
-})
+    failureRedirect: "/login",
+    failureFlash: true
+}))
+passport.authenticate('local', { failureFlash: 'Invalid username or password.' });
 
 //logout
 router.get("/logout", function(req, res) {
     req.logout();
+    req.flash("error", "Loged Out successfully")
     res.redirect("/")
 })
 

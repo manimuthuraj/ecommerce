@@ -10,6 +10,7 @@ var Dashboard = async function(req, res) {
         res.render("admin/admin", { allcat: allcat, products: products })
     } catch (e) {
         console.log(e)
+        req.flash("Sorry!, You Dont'have permision")
         res.redirect("/")
     }
 }

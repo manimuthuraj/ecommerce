@@ -6,6 +6,7 @@ var multer = require('multer')
 var upload = multer({ dest: 'uploads' })
 var middleware = require("../middleware/index")
 var controller = require("../controllers/product.con")
+const { response } = require("express")
 
 // new product addition
 router.get("/products", middleware.isAdmin, controller.CreateProduct)
@@ -25,4 +26,12 @@ router.put("/products/:id", middleware.isAdmin, controller.UpdateProduct)
 //deleting products
 router.delete("/products/:id", middleware.isAdmin, controller.DeleteProduct)
 
+router.get("/range/products", function(req, res) {
+    console.log(req.query.price1, req.query.price2)
+    var query = { $and: [{ price: { $gt: req.query.price1, $lt: req.query.price2 } }, { categorie: '5f0841e44e88791a1ce295f6' }] }
+    product.find(query, function(err, response) {
+        console.log(response)
+        res.json(response)
+    })
+})
 module.exports = router

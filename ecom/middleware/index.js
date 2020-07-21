@@ -7,6 +7,7 @@ async function isAdmin(req, res, next) {
             res.redirect("/")
         }
     } else {
+        req.flash("error", "login first")
         res.redirect("/")
     }
 }

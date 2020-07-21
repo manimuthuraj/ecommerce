@@ -9,10 +9,12 @@ app.use(express.static(__dirname + "/public"));
 var methodOverride = require("method-override")
 app.use(methodOverride("_method"))
 app.use(express.static(__dirname + '/uploads'))
+var flash = require('connect-flash')
 
 var multer = require('multer')
 var upload = multer({ dest: 'uploads' })
 
+app.use(flash())
 app.use(bodyparse.urlencoded({ extended: true }))
 require("./config/dbconnection")
 var categorie = require("./models/categorie")
@@ -39,10 +41,10 @@ passport.use(new LocalStrategy(
         euser.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
             if (!user) {
-                return done(null, false, console.log("invalid user"));
+                return done(null, false, { message: "invalid username" });
             }
             if (password != user.password) {
-                return done(null, false, console.log("invalid password"));
+                return done(null, false, { message: "invalid password" });
             }
             return done(null, user);
         });
@@ -63,6 +65,7 @@ passport.deserializeUser(function(id, done) {
 //passport.deserializeUser(euser.deserializeUser())
 app.use(function(req, res, next) {
     res.locals.currentUser = req.user;
+    res.locals.message = req.flash("error")
     next();
 })
 

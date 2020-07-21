@@ -8,7 +8,6 @@
                     <h1>
                         <%=x.name%>
                     </h1>
-                    <a href="/products/<%=x._id%>?767">bjb</a>
                 </div>
                 <%if(!currentUser){%>
                     <p></p>
@@ -21,49 +20,44 @@
                                         <!-- </a>-->
 
             </header>
-            <div class="row text-center" style="display:flex; flex-wrap: wrap;">
-                <% products.forEach(function(x){%>
-                    <div class="cl-md-3 col-sm-6 col-lg-4">
-                        <!-- <a href="/products/<%=x._id %>/edit"> -->
-                        <div class="thumbnail" style="width: 90%;height: 90%;">
-                            <%if(!currentUser){%>
-                                <p></p>
-                                <%}else{%>
-                                    <%  if(currentUser.role=='admin'){%>
-                                        <a class="btn btn-success" href="/products/<%=x._id %>/edit">Edit</a>
-                                        <%}%>
+            <%- include("./partials/filter") %>
+                <div class="row text-center" id="con" style="display:flex; flex-wrap: wrap;">
+                    <% products.forEach(function(x){%>
+                        <div class="cl-md-3 col-sm-6 col-lg-4">
+                            <!-- <a href="/products/<%=x._id %>/edit"> -->
+                            <div class="thumbnail" style="width: 90%;height: 90%;">
+                                <%if(!currentUser){%>
+                                    <p></p>
+                                    <%}else{%>
+                                        <%  if(currentUser.role=='admin'){%>
+                                            <a class="btn btn-success" href="/products/<%=x._id %>/edit">Edit</a>
                                             <%}%>
+                                                <%}%>
 
-                                                <div class="caption">
-                                                    <p>name</p>
-                                                    <p>
-                                                        <%=x.name%>
-                                                    </p>
-                                                    quantity:
-                                                    <%=x.quantity%>
-                                                        <p> price:
-                                                            <%=x.price%>
+                                                    <div class="caption">
+                                                        <p>name</p>
+                                                        <p>
+                                                            <%=x.name%>
                                                         </p>
-                                                        <img src="http://localhost:3000/<%=x.image%>" width="80%" height="80%">
-                                                </div>
-                        </div>
+                                                        quantity:
+                                                        <%=x.quantity%>
+                                                            <p> price:
+                                                                <%=x.price%>
+                                                            </p>
+                                                            <img src="http://localhost:3000/<%=x.image%>" width="80%" height="80%">
+                                                    </div>
+                            </div>
 
-                        <!--</a>-->
-                    </div>
-                    <% }) %>
-            </div>
+                            <!--</a>-->
+                        </div>
+                        <% }) %>
+                </div>
+                <%if(Object.keys(products).length === 0){%>
+                    <h1 id="message"> No products yet </h1>
+                    <%}%>
+                        <div id="se">
+
+                        </div>
     </div>
-    <!-- <div class="container">
-        <div class="thumbnail">
-            <% products.forEach(function(x){%>
-                name:
-                <%=x.name%>
-                    quantity:
-                    <%=x.quantity%>
-                        price:
-                        <%=x.price%>
-                            <%})%>
-        </div>
-    </div>-->
 
     <%- include("./partials/footer") %>

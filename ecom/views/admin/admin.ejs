@@ -17,31 +17,32 @@
         <a class="btn btn-primary" href="/products">click to add products</a>
     </div>
     <hr>
-
-    <div class="container">
-        <div class="row text-center" style="display:flex; flex-wrap: wrap;">
-            <% products.forEach(function(x){%>
-                <div class="cl-md-3 col-sm-6 col-lg-4">
-                    <a href="/products/<%=x._id %>/edit">
-                        <div class="thumbnail" style="width: 80%;height: 80%;;box-shadow: 1px 1px 2px 2px rgb(204, 182, 142);">
-                            <div class="caption">
-                                <p>name</p>
-                                <p>
-                                    <%=x.name%>
-                                </p>
-                                quantity:
-                                <%=x.quantity%>
-                                    <p> price:
-                                        <%=x.price%>
+    <%- include("../partials/filter") %>
+        <div class="container" id="con">
+            <div class="row text-center" style="display:flex; flex-wrap: wrap;">
+                <% products.forEach(function(x){%>
+                    <div class="cl-md-3 col-sm-6 col-lg-4">
+                        <a href="/products/<%=x._id %>/edit">
+                            <div class="thumbnail" style="width: 80%;height: 80%;;box-shadow: 1px 1px 2px 2px rgb(204, 182, 142);">
+                                <div class="caption">
+                                    <p>name</p>
+                                    <p>
+                                        <%=x.name%>
                                     </p>
-                                    <img src="http://localhost:3000/<%=x.image%>" width="50%" height="50%">
+                                    quantity:
+                                    <%=x.quantity%>
+                                        <p> price:
+                                            <%=x.price%>
+                                        </p>
+                                        <img src="http://localhost:3000/<%=x.image%>" width="50%" height="50%">
+                                </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-                <% }) %>
+                        </a>
+                    </div>
+                    <% }) %>
+            </div>
         </div>
-    </div>
-    </div>
+        <div id="se"></div>
+        </div>
 
-    <%- include("../partials/footer") %>
+        <%- include("../partials/footer") %>

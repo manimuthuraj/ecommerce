@@ -1,0 +1,164 @@
+<form id="form1" method="GET">
+    <input type="text" name="name">
+    <button>search</button>
+</form>
+
+<div class="dropdown">
+    <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter
+    <span class="caret"></span></button>
+    <ul class="dropdown-menu">
+        <li>
+            <form id="form2" method="GET">price
+                <input type="number" name="price1" min="0" required>-
+                <input type="number" name="price2" required>
+                <button>search</button>
+            </form>
+        </li>
+        <li>
+            <form method="GET" id="form3">Price
+                <input type="radio" name="sort" value=-1>high to low
+                <input type="radio" name="sort" value=1>Low to high
+                <button>submit</button>
+            </form>
+            <form method="GET" id="form4">Date
+                <input type="radio" name="date" value=-1>new to old
+                <input type="radio" name="date" value=1>old to new
+                <button>submit</button>
+            </form>
+        </li>
+    </ul>
+</div>
+
+<script>
+    $(function() {
+        $("#form1").submit(function(event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'GET',
+                url: '/search',
+                data: $('#form1').serialize(),
+                datatype: 'jsonp',
+                success: function(k) {
+                    var t = $('#con')
+                    var se = $('#se')
+                    t.html('')
+                    se.html('')
+                    successq(k);
+                }
+            });
+        });
+    });
+
+    $(function() {
+        $("#form2").submit(function(event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'GET',
+                url: '/range',
+                data: $('#form2').serialize(),
+                datatype: 'jsonp',
+                success: function(k) {
+                    var t = $('#con')
+                    var se = $('#se')
+                    t.html('')
+                    se.html('')
+                    successq(k);
+                }
+            });
+        });
+    });
+
+    $(function() {
+        $("#form3").submit(function(event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'GET',
+                url: '/sort',
+                data: $('#form3').serialize(),
+                datatype: 'jsonp',
+                success: function(k) {
+                    var t = $('#con')
+                    var se = $('#se')
+                    t.html('')
+                    se.html('')
+                    successq(k);
+                }
+            });
+        });
+    });
+    $(function() {
+        $("#form4").submit(function(event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'GET',
+                url: '/sort/date',
+                data: $('#form4').serialize(),
+                datatype: 'jsonp',
+                success: function(k) {
+                    var t = $('#con')
+                    var se = $('#se')
+                    t.html('')
+                    se.html('')
+                    successq(k);
+                }
+            });
+        });
+    });
+
+
+    function successq(k) {
+        var se = $('#se')
+        console.log(k)
+        if (k.length == 0) {
+            $('#se').html('product not found')
+        }
+        k.forEach(function(e) {
+            $('#price').html('price' + e.price)
+            se.append('\
+                <div class="row" >\
+                    <div class="column">\
+                        <div class="card">\
+                            <img src="http://localhost:3000/' + e.image + '" alt="Denim Jeans" style="width:100%">\
+                            <h1>' + e.name + '</h1>\
+                            <p class="price">' + e.price + '</p>\
+                             <p>' + e.quantity + '</p>\
+                        </div>\
+                    </div>\
+                </div>\
+                            ');
+            console.log(e.name)
+        });
+    }
+</script>
+
+
+<style>
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        max-width: 300px;
+        margin: auto;
+        text-align: center;
+        font-family: arial;
+    }
+    
+    .price {
+        color: grey;
+        font-size: 22px;
+    }
+    
+    .column {
+        float: left;
+        width: 25%;
+        padding: 0 10px;
+    }
+    
+    .row {
+        margin: 0 -5px;
+    }
+    
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+</style>

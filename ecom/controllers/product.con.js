@@ -31,8 +31,6 @@ var ShowProduct = async function(req, res) {
         var id = req.params.id
         var v = req.query
         var products = await product.find({ categorie: id })
-        var a = await product.find({ categorie: id, price: { $lt: 5000 } })
-        console.log(req.query)
         var cate = await categorie.find({ _id: id })
         res.render("display", { products: products, cate: cate })
     } catch (e) {
