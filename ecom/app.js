@@ -4,6 +4,7 @@ var bodyparse = require("body-parser")
 var mongoose = require("mongoose")
 var passport = require("passport")
 var LocalStrategy = require("passport-local")
+var nodemailer = require("nodemailer")
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));
 var methodOverride = require("method-override")
@@ -68,7 +69,6 @@ app.use(function(req, res, next) {
     res.locals.message = req.flash("error")
     next();
 })
-
 
 app.use(categorieRoute)
 app.use(productRoute)

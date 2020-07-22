@@ -95,6 +95,5 @@ function successq(k) {
             </div>\
         </div>\
                     ');
-        console.log(e.name)
     });
 }

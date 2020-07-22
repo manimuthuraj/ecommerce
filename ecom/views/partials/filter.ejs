@@ -11,6 +11,7 @@
             <form id="form2" method="GET">price
                 <input type="number" name="price1" min="0" required>-
                 <input type="number" name="price2" required>
+                <input type="hidden" name="id" value="<%=products[0].categorie%>">
                 <button>search</button>
             </form>
         </li>
@@ -18,11 +19,13 @@
             <form method="GET" id="form3">Price
                 <input type="radio" name="sort" value=-1>high to low
                 <input type="radio" name="sort" value=1>Low to high
+                <input type="hidden" name="id" value="<%=products[0].categorie%>">
                 <button>submit</button>
             </form>
             <form method="GET" id="form4">Date
                 <input type="radio" name="date" value=-1>new to old
                 <input type="radio" name="date" value=1>old to new
+                <input type="hidden" name="id" value="<%=products[0].categorie%>">
                 <button>submit</button>
             </form>
         </li>
@@ -54,7 +57,7 @@
             event.preventDefault();
             $.ajax({
                 type: 'GET',
-                url: '/range',
+                url: '/range/products',
                 data: $('#form2').serialize(),
                 datatype: 'jsonp',
                 success: function(k) {
@@ -73,7 +76,7 @@
             event.preventDefault();
             $.ajax({
                 type: 'GET',
-                url: '/sort',
+                url: '/sort/products',
                 data: $('#form3').serialize(),
                 datatype: 'jsonp',
                 success: function(k) {
@@ -91,7 +94,7 @@
             event.preventDefault();
             $.ajax({
                 type: 'GET',
-                url: '/sort/date',
+                url: '/sort/date/products',
                 data: $('#form4').serialize(),
                 datatype: 'jsonp',
                 success: function(k) {
@@ -110,7 +113,7 @@
         var se = $('#se')
         console.log(k)
         if (k.length == 0) {
-            $('#se').html('product not found')
+            se.append('<h1 id="message">product not found</div>')
         }
         k.forEach(function(e) {
             $('#price').html('price' + e.price)
@@ -126,7 +129,6 @@
                     </div>\
                 </div>\
                             ');
-            console.log(e.name)
         });
     }
 </script>

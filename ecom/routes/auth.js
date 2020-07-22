@@ -5,45 +5,23 @@ var euser = require("../models/euser")
 var multer = require('multer')
 var upload = multer({ dest: 'uploads' })
 var middleware = require("../middleware/index")
+var controller = require("../controllers/auth")
 
 
 //registration route
-router.get("/register", middleware.islogedin, function(req, res) {
-    res.render("auth/register")
-})
+router.get("/register", middleware.islogedin, controller.register)
 
 //adding user to database
-router.post("/register", middleware.islogedin, upload.single('picture'), async function(req, res) {
-    try {
-        var use = { username: req.body.username, password: req.body.password, image: req.file.filename }
-        console.log(use)
-        var eu = await euser.create(use)
-        res.redirect("/login")
-    } catch (e) {
-        console.log(e)
-        req.flash("error", e)
-        res.redirect("/")
-    }
-})
+router.post("/register", middleware.islogedin, upload.single('picture'), controller.addUser)
 
 //login
-router.get("/login", middleware.islogedin, function(req, res) {
-    res.render("auth/register")
-})
+router.get("/login", middleware.islogedin, controller.loginForm)
 
-router.post("/login", middleware.islogedin, passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login",
-    failureFlash: true
-}))
+//login authentication
+router.post("/login", middleware.islogedin, controller.loginUse)
 passport.authenticate('local', { failureFlash: 'Invalid username or password.' });
 
 //logout
-router.get("/logout", function(req, res) {
-    req.logout();
-    req.flash("error", "Loged Out successfully")
-    res.redirect("/")
-})
-
+router.get("/logout", controller.logotuse)
 
 module.exports = router

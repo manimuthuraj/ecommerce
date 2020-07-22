@@ -27,11 +27,30 @@ router.put("/products/:id", middleware.isAdmin, controller.UpdateProduct)
 router.delete("/products/:id", middleware.isAdmin, controller.DeleteProduct)
 
 router.get("/range/products", function(req, res) {
-    console.log(req.query.price1, req.query.price2)
-    var query = { $and: [{ price: { $gt: req.query.price1, $lt: req.query.price2 } }, { categorie: '5f0841e44e88791a1ce295f6' }] }
+    var query = { $and: [{ price: { $gt: req.query.price1, $lt: req.query.price2 } }, { categorie: req.query.id }] }
     product.find(query, function(err, response) {
-        console.log(response)
         res.json(response)
     })
 })
+
+router.get("/sort/products", async function(req, res) {
+    try {
+        var s = parseInt(req.query.sort)
+        var response = await product.find({ categorie: req.query.id }).sort({ price: s })
+        res.json(response)
+    } catch (e) {
+        console.log(e)
+    }
+})
+
+router.get("/sort/date/products", async function(req, res) {
+    try {
+        var s = parseInt(req.query.date)
+        var response = await product.find({ categorie: req.query.id }).sort({ created_date: s })
+        res.json(response)
+    } catch (e) {
+        console.log(e)
+    }
+})
+
 module.exports = router
