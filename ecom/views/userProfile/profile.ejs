@@ -1,0 +1,53 @@
+<%- include("../partials/header") %>
+    <%if(!currentUser){%>
+        <p id="message">&#x1f61f Please
+            <a href="/login">Login or register</a> to view your profile</p>
+        <%}else{%>
+            <div class="card">
+                <img src="http://localhost:3000/<%=currentUser.image%>" alt="Profile pic" style="width:80%">
+                <h1></h1>
+                <p class="title">
+                    <%=currentUser.username%>
+                </p>
+                <form action="/user?_method=PUT" method="POST" id="myform">
+                    <div class="form-group">
+                        <label for="password">Current password</label>
+                        <input type="password" class="form-control" id="password" name="user" placeholder="Current password" required min="3" max="8">
+                        <label for="password">New password</label>
+                        <input type="password" class="form-control" id="Newpassword" name="newuser" placeholder="New password" required min="4" max="8">
+                    </div>
+                    <button class="btn btn-warning tn-sm">Submit</button>
+                </form>
+            </div>
+
+            <%}%>
+
+                <style>
+                    p {
+                        margin: 10%;
+                    }
+                    
+                    .card {
+                        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.281);
+                        max-width: 300px;
+                        margin: auto;
+                        margin-top: 5%;
+                        text-align: center;
+                    }
+                    
+                    img {
+                        border-radius: 50%;
+                    }
+                    
+                    .title {
+                        color: orange;
+                        font-size: 18px;
+                    }
+                    
+                    #password,
+                    #Newpassword {
+                        width: 80%;
+                        margin-left: 2%;
+                    }
+                </style>
+                <%- include("../partials/footer") %>

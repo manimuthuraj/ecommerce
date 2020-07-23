@@ -96,6 +96,7 @@ var rangeCategorie = function(req, res) {
 var sortCategorie = async function(req, response) {
     try {
         var s = parseInt(req.query.sort)
+        var d = parseInt(req.query.date)
         var products = await product.aggregate([{
                 $lookup: {
                     from: "categories",
@@ -106,10 +107,11 @@ var sortCategorie = async function(req, response) {
             },
             {
                 $match: {
-                    'cat.status': { $ne: "block" },
+                    'cat.status': { $ne: "block" }
+                    // 'cat.price': { $gt: 1000, $lt: 50000 }
                 }
             }
-        ]).sort({ price: s })
+        ]).sort({ price: s, created_date: s })
         response.json(products)
     } catch (e) {
         console.log(e)
@@ -118,29 +120,5 @@ var sortCategorie = async function(req, response) {
 
 }
 
-var dsortCategorie = async function(req, response) {
-    try {
-        var s = parseInt(req.query.date)
-        var products = await product.aggregate([{
-                $lookup: {
-                    from: "categories",
-                    localField: "categorie",
-                    foreignField: "_id",
-                    as: "cat"
-                }
-            },
-            {
-                $match: {
-                    'cat.status': { $ne: "block" },
-                }
-            }
-        ]).sort({ created_date: s })
-        response.json(products)
-    } catch (e) {
-        console.log(e)
-        res.redirect("/")
-    }
 
-}
-
-module.exports = { Allcategorie, AddCategorie, EditCategorie, UpdateCategorie, deleteCategorie, searchCategorie, rangeCategorie, sortCategorie, dsortCategorie }
+module.exports = { Allcategorie, AddCategorie, EditCategorie, UpdateCategorie, deleteCategorie, searchCategorie, rangeCategorie, sortCategorie }

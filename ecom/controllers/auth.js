@@ -1,3 +1,4 @@
+var bcrypt = require("bcrypt")
 var passport = require("passport")
 var euser = require("../models/euser")
 var multer = require('multer')
@@ -9,7 +10,18 @@ var register = function(req, res) {
 }
 var addUser = async function(req, res) {
     try {
-        var use = { username: req.body.username, password: req.body.password, mail: req.body.mail, image: req.file.filename }
+        if (!req.file == '') {
+            image = req.file.filename
+        } else {
+            image = "f4d55184c4055bb7f7d95d4c025f85f7"
+        }
+        var hashedPassword = await bcrypt.hash(req.body.password, 10)
+            /*console.log(hashedPassword)
+            if (await bcrypt.compare('1234', hashedPassword)) {
+                console.log("s")
+            }*/
+            //
+        var use = { username: req.body.username, password: hashedPassword, mail: req.body.mail, image: image }
         var eu = await euser.create(use)
         var userMail = req.body.mail
         middleware.mail(userMail)

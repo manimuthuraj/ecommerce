@@ -1,5 +1,7 @@
 var express = require("express")
 var app = express()
+var bcrypt = require("bcrypt")
+require("dotenv").config()
 var bodyparse = require("body-parser")
 var mongoose = require("mongoose")
 var passport = require("passport")
@@ -25,6 +27,7 @@ var categorieRoute = require("./routes/categorie")
 var productRoute = require("./routes/product")
 var adminRoute = require("./routes/admin")
 var authRoute = require("./routes/auth")
+var userRoute = require("./routes/user")
 
 app.use(require("express-session")({
     secret: "mmr",
@@ -36,19 +39,33 @@ app.use(passport.session())
 passport.use(new LocalStrategy(euser.authenticate()))
     //passport.serializeUser(euser.serializeUser())
 
-
 passport.use(new LocalStrategy(
-    function(username, password, done) {
-        euser.findOne({ username: username }, function(err, user) {
-            if (err) { return done(err); }
+    /* function(username, password, done) {
+         euser.findOne({ username: username }, function(err, user) {
+             if (err) { return done(err); }
+             if (!user) {
+                 return done(null, false, { message: "invalid username" });
+             }
+             if (!valid(password, user.password)) {
+                 return done(null, false, { message: "invalid password" });
+             }
+             return done(null, user);
+         });
+     }*/
+    async function(username, password, done) {
+        try {
+            var user = await euser.findOne({ username: username })
             if (!user) {
                 return done(null, false, { message: "invalid username" });
             }
-            if (password != user.password) {
+            if (await bcrypt.compare(password, user.password)) {
+                return done(null, user);
+            } else {
                 return done(null, false, { message: "invalid password" });
             }
-            return done(null, user);
-        });
+        } catch (e) {
+            console.log(e)
+        }
     }
 ));
 
@@ -74,6 +91,7 @@ app.use(categorieRoute)
 app.use(productRoute)
 app.use(adminRoute)
 app.use(authRoute)
+app.use(userRoute)
 
 const PORT = 3000 || process.env.PORT
 app.listen(PORT, function() {

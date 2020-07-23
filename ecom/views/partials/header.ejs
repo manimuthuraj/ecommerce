@@ -50,7 +50,7 @@
                         <li><a href="/login">Sign in</a></li>
                         <li><a href="/register">Signup</a></li>
                         <% }else{ %>
-                            <li><a href="#">Singned in as
+                            <li><a href="/user">Singned in as
                                 <%= currentUser.username %></a>
                             </li>
                             <img class="chip" src="http://localhost:3000/<%=currentUser.image%>" alt="DP" width="96" height="96">
@@ -80,5 +80,6 @@
                 #message {
                     color: rgb(0, 0, 73);
                     margin-left: 35%;
+                    font-size: 135%;
                 }
             </style>

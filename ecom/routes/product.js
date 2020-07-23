@@ -36,17 +36,8 @@ router.get("/range/products", function(req, res) {
 router.get("/sort/products", async function(req, res) {
     try {
         var s = parseInt(req.query.sort)
-        var response = await product.find({ categorie: req.query.id }).sort({ price: s })
-        res.json(response)
-    } catch (e) {
-        console.log(e)
-    }
-})
-
-router.get("/sort/date/products", async function(req, res) {
-    try {
-        var s = parseInt(req.query.date)
-        var response = await product.find({ categorie: req.query.id }).sort({ created_date: s })
+        var d = parseInt(req.query.date)
+        var response = await product.find({ categorie: req.query.id }).sort({ price: s, created_date: d })
         res.json(response)
     } catch (e) {
         console.log(e)

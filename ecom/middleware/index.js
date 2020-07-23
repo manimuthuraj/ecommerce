@@ -25,8 +25,8 @@ async function mail(gm) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'manimuthukumar177@gmail.com',
-            pass: 'mani2712'
+            user: process.env.user,
+            pass: process.env.passWord
         },
         tls: {
             rejectUnauthorized: false
@@ -34,9 +34,9 @@ async function mail(gm) {
     });
 
     var mailOptions = {
-        from: '',
+        from: process.env.user,
         to: gm,
-        subject: '',
+        subject: 'Welcome to ecommerce website',
         html: '<h1>Welcome<h1> <h5>Enoy the best shoping </h5>'
     };
 

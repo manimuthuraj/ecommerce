@@ -18,16 +18,18 @@
         <li>
             <form method="GET" id="form3">Price
                 <input type="radio" name="sort" value=-1>high to low
-                <input type="radio" name="sort" value=1>Low to high
-                <input type="hidden" name="id" value="<%=products[0].categorie%>">
-                <button>submit</button>
-            </form>
-            <form method="GET" id="form4">Date
-                <input type="radio" name="date" value=-1>new to old
+                <input type="radio" name="sort" value=1 checked>Low to high
+                <input type="radio" name="date" value=-1 checked>new to old
                 <input type="radio" name="date" value=1>old to new
                 <input type="hidden" name="id" value="<%=products[0].categorie%>">
                 <button>submit</button>
             </form>
+            <!--  <form method="GET" id="form4">Date
+                <input type="radio" name="date" value=-1>new to old
+                <input type="radio" name="date" value=1>old to new
+                <input type="hidden" name="id" value="<%=products[0].categorie%>">
+                <button>submit</button>
+            </form>-->
         </li>
     </ul>
 </div>
