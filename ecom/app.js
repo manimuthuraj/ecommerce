@@ -23,11 +23,13 @@ require("./config/dbconnection")
 var categorie = require("./models/categorie")
 var product = require("./models/product")
 var euser = require("./models/euser")
+var cart = require("./models/cart")
 var categorieRoute = require("./routes/categorie")
 var productRoute = require("./routes/product")
 var adminRoute = require("./routes/admin")
 var authRoute = require("./routes/auth")
 var userRoute = require("./routes/user")
+var cartRoute = require("./routes/cart")
 
 app.use(require("express-session")({
     secret: "mmr",
@@ -92,6 +94,7 @@ app.use(productRoute)
 app.use(adminRoute)
 app.use(authRoute)
 app.use(userRoute)
+app.use(cartRoute)
 
 const PORT = 3000 || process.env.PORT
 app.listen(PORT, function() {

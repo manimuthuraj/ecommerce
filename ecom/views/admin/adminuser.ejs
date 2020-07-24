@@ -1,0 +1,19 @@
+<%- include("../partials/header") %>
+    <%users.forEach(function(x){%>
+        <%if(x.role!='admin'){%>
+            <h4>
+                <%=x.username%>
+            </h4>
+            <form action="/admin/user?_method=PUT" method="POST">
+                <input type="hidden" value="<%=x._id%>" name="id">
+                <button class="btn btn-warning">change Password</button>
+            </form>
+            <%}%>
+                <%})%>
+
+                    <style>
+                        h4 {
+                            margin-top: 2%;
+                        }
+                    </style>
+                    <%- include("../partials/footer") %>

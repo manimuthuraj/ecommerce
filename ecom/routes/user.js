@@ -6,8 +6,10 @@ var upload = multer({ dest: 'uploads' })
 var middleware = require("../middleware/index")
 var controller = require("../controllers/user")
 
+//user profile
 router.get("/user", controller.user)
 
+//user password edit
 router.put("/user", controller.userEdit)
 
 module.exports = router

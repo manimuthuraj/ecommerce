@@ -107,8 +107,8 @@ var sortCategorie = async function(req, response) {
             },
             {
                 $match: {
-                    'cat.status': { $ne: "block" }
-                    // 'cat.price': { $gt: 1000, $lt: 50000 }
+                    'cat.status': { $ne: "block" },
+                    'price': { $gte: 1000, $lte: 50000 }
                 }
             }
         ]).sort({ price: s, created_date: s })

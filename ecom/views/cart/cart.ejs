@@ -1,0 +1,35 @@
+<%- include("../partials/header") %>
+
+    <h1>carts</h1>
+    <%cart.forEach(function(x){%>
+        <p>
+            name:
+            <%=x.name%>
+                quantity:
+                <%=x.quantity%>
+                    price:
+                    <%=x.price%>
+                        total:
+                        <%=x.total%>
+                            image:
+                            <%=x.image%>
+                                <form action="/cart/edit?_method=PUT" method="POST">
+                                    <input type="hidden" value="<%=x._id%>" name="id">
+                                    <button class="btn btn-warning">increase</button>
+                                </form>
+                                <form id="delete" action="/cart/<%= x._id %>?_method=DELETE" method="post">
+                                    <button class="btn btn-danger btn-sm">DELETE</button>
+                                </form>
+        </p>
+        <%})%>
+            subtotal:
+            <%=subtotal%>
+
+                <%if(Object.keys(cart).length === 0){%>
+                    <h1 id="message"> No products yet add cart to see </h1>
+                    <%}%>
+
+                        <style>
+
+                        </style>
+                        <%- include("../partials/footer") %>

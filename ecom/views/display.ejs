@@ -46,6 +46,10 @@
                                                             </p>
                                                             <img src="http://localhost:3000/<%=x.image%>" width="80%" height="80%">
                                                     </div>
+                                                    <form action="/cart" method="POST">
+                                                        <input type="hidden" value="<%=x._id%>" name="product">
+                                                        <button class="btn btn-warning btn-xs">addtocart</button>
+                                                    </form>
                             </div>
 
                             <!--</a>-->

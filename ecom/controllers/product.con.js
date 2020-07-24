@@ -18,7 +18,6 @@ var CreateProduct = async function(req, res) {
 var AddProduct = async function(req, res) {
     try {
         var pro = { name: req.body.name, categorie: req.body.categorie, quantity: req.body.quantity, price: req.body.price, image: req.file.filename }
-        console.log(pro)
         var pro = await product.create(pro)
         res.redirect("/")
     } catch (e) {
