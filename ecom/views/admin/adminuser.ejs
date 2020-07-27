@@ -6,14 +6,19 @@
             </h4>
             <form action="/admin/user?_method=PUT" method="POST">
                 <input type="hidden" value="<%=x._id%>" name="id">
-                <button class="btn btn-warning">change Password</button>
+                <button class="btn btn-warning btn-xs">change Password</button>
             </form>
-            <%}%>
-                <%})%>
+            <%=x.status%>
+                <form action="/admin/status?_method=PUT" method="POST">
+                    <input type="hidden" value="<%=x._id%>" name="id">
+                    <button class="btn btn-warning btn-xs">change status</button>
+                </form>
+                <%}%>
+                    <%})%>
 
-                    <style>
-                        h4 {
-                            margin-top: 2%;
-                        }
-                    </style>
-                    <%- include("../partials/footer") %>
+                        <style>
+                            h4 {
+                                margin-top: 2%;
+                            }
+                        </style>
+                        <%- include("../partials/footer") %>

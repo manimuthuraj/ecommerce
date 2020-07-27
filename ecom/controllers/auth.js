@@ -5,9 +5,12 @@ var multer = require('multer')
 var upload = multer({ dest: 'uploads' })
 var middleware = require("../middleware/index")
 
+//Rendering registration form
 var register = function(req, res) {
     res.render("auth/register")
 }
+
+//adding user to Database
 var addUser = async function(req, res) {
     try {
         if (!req.file == '') {
@@ -33,16 +36,20 @@ var addUser = async function(req, res) {
         res.redirect("/register")
     }
 }
+
+//rendering login form
 var loginForm = function(req, res) {
     res.render("auth/register")
 }
 
+//login authentication
 var loginUse = passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
 })
 
+//logging out users
 var logotuse = function(req, res) {
     req.logout();
     req.flash("error", "Loged Out successfully")

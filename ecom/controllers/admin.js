@@ -8,6 +8,7 @@ var controller = require("../controllers/admin")
 var email = require("../middleware/index")
 
 
+//Finding all categories and products for admin
 var Dashboard = async function(req, res) {
     try {
         var allcat = await categorie.find({})
@@ -20,6 +21,7 @@ var Dashboard = async function(req, res) {
     }
 }
 
+//Listing Active and blocked user
 var adminUserpanel = async function(req, res) {
     try {
         var users = await euser.find()
@@ -28,6 +30,8 @@ var adminUserpanel = async function(req, res) {
         console.log(e)
     }
 }
+
+//Changing user password
 var userPasswordchange = async function(req, res) {
     try {
         var randompw = Math.floor(Math.random() * 5000) + 1000
@@ -44,4 +48,23 @@ var userPasswordchange = async function(req, res) {
     }
 }
 
-module.exports = { Dashboard, adminUserpanel, userPasswordchange }
+//Block or unblock users
+var changeStatus = async function(req, res) {
+    try {
+        var user = await euser.findById(req.body.id)
+        var status
+        if (user.status == "active") {
+            status = "block"
+        } else {
+            status = "active"
+        }
+        var changeStatus = await euser.findByIdAndUpdate(req.body.id, { status: status })
+        req.flash("error", "status changed")
+        res.redirect("/admin/user")
+    } catch (e) {
+        console.log(e)
+        req.flash("error", "some thing went wrong")
+        res.redirect("/")
+    }
+}
+module.exports = { Dashboard, adminUserpanel, userPasswordchange, changeStatus }

@@ -1,35 +1,76 @@
 <%- include("../partials/header") %>
 
-    <h1>carts</h1>
+    <h1>cart</h1>
     <%cart.forEach(function(x){%>
-        <p>
-            name:
-            <%=x.name%>
-                quantity:
-                <%=x.quantity%>
-                    price:
-                    <%=x.price%>
-                        total:
-                        <%=x.total%>
-                            image:
-                            <%=x.image%>
-                                <form action="/cart/edit?_method=PUT" method="POST">
-                                    <input type="hidden" value="<%=x._id%>" name="id">
-                                    <button class="btn btn-warning">increase</button>
-                                </form>
-                                <form id="delete" action="/cart/<%= x._id %>?_method=DELETE" method="post">
-                                    <button class="btn btn-danger btn-sm">DELETE</button>
-                                </form>
-        </p>
+        <div class="thumbnail" style="width: 40%;height: 5%;">
+            <div class="caption">
+                <h6>
+                    <img src="http://localhost:3000/<%=x.image%>" alt="" width="5%" height="5%"> name:
+                    <%=x.name%>
+                </h6>
+                <p> quantity:
+                    <%=x.quantity%>
+                </p>
+                price:
+                <%=x.price%>
+                    total:
+                    <%=x.total%>
+                        <form action="/cart/edit?_method=PUT" method="POST">
+                            <input type="hidden" value="<%=x._id%>" name="id">
+                            <button class="btn btn-warning btn-xs">increase</button>
+                        </form>
+                        <form id="delete" action="/cart/<%= x._id %>?_method=DELETE" method="post">
+                            <button class="btn btn-danger btn-xs">DELETE</button>
+                        </form>
+                        </p>
+            </div>
+        </div>
         <%})%>
-            subtotal:
-            <%=subtotal%>
+            <div class="card">
+                subtotal:
+                <%=subtotal%>
+            </div>
+            <!-- <div class="card">
+                    <%cart.forEach(function(x){%>
+                        <p>
+                            name:
+                            <%=x.name%>
+                                quantity:
+                                <%=x.quantity%>
+                                    price:
+                                    <%=x.price%>
+                                        total:
+                                        <%=x.total%>
+                                            image:
+                                            <%=x.image%>
+                                                <form action="/cart/edit?_method=PUT" method="POST">
+                                                    <input type="hidden" value="<%=x._id%>" name="id">
+                                                    <button class="btn btn-warning">increase</button>
+                                                </form>
+                                                <form id="delete" action="/cart/<%= x._id %>?_method=DELETE" method="post">
+                                                    <button class="btn btn-danger btn-sm">DELETE</button>
+                                                </form>
+                        </p>
+                        <%})%>
+                </div>-->
 
-                <%if(Object.keys(cart).length === 0){%>
-                    <h1 id="message"> No products yet add cart to see </h1>
-                    <%}%>
+            <%if(Object.keys(cart).length === 0){%>
+                <h1 id="message">&#128151 No products yet add cart to see &#128151 </h1>
+                <%}%>
 
-                        <style>
-
-                        </style>
-                        <%- include("../partials/footer") %>
+                    <style>
+                        .card {
+                            background-color: rgba(255, 158, 31, 0.562);
+                            width: 25%;
+                            height: 50%;
+                            margin-left: 5%;
+                            border-radius: 2%;
+                            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+                            text-align: center;
+                        }
+                        
+                        .thumbnail {
+                            margin-left: 5%;
+                        }
+                    </style>
+                    <%- include("../partials/footer") %>

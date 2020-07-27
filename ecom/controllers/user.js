@@ -3,16 +3,21 @@ var bcrypt = require("bcrypt")
 var router = express.Router()
 var euser = require("../models/euser")
 var multer = require('multer')
+var userorder = require("../models/myorder")
 var upload = multer({ dest: 'uploads' })
+mod = require("../mod/user")
 
+//User Profile
 var user = async function(req, res) {
     try {
-        res.render("userProfile/profile")
+        var order = await userorder.find({ user: req.user._id })
+        res.render("userProfile/profile", { order: order })
     } catch (e) {
         console.log(e)
     }
 }
 
+//user changing their password
 var userEdit = async function(req, res) {
     try {
         var oldPassword = await euser.findById(req.user._id)
@@ -32,4 +37,19 @@ var userEdit = async function(req, res) {
     }
 }
 
-module.exports = { user, userEdit }
+//delete items in the MyOrder list
+var deleteOrder = function(req, res) {
+    userorder.findByIdAndRemove(req.params.id, function(err) { //finding userorder based on id and removing from db
+        if (err) {
+            console.log(err)
+            req.flash("error", "something went wrong")
+            res.redirect("/")
+        } else {
+            req.flash("error", "your order deleted sucessfully")
+            res.redirect("/user")
+        }
+    })
+
+}
+
+module.exports = { user, userEdit, deleteOrder }

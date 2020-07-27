@@ -3,6 +3,7 @@ var router = express.Router();
 var categorie = require("../models/categorie")
 var product = require("../models/product")
 
+//Displaying Active Categorie and products
 var Allcategorie = async function(req, res) {
     try {
         // var s = parseInt(req.query.sort)
@@ -33,6 +34,7 @@ var Allcategorie = async function(req, res) {
     }
 }
 
+//Adding categorie
 var AddCategorie = async function(req, res) {
     try {
         var cat = await categorie.create(req.body.cat)
@@ -43,6 +45,7 @@ var AddCategorie = async function(req, res) {
     }
 }
 
+//Editing categorie
 var EditCategorie = async function(req, res) {
     try {
         var cat = await categorie.findById(req.params.id)
@@ -53,6 +56,7 @@ var EditCategorie = async function(req, res) {
     }
 }
 
+//Updating categories
 var UpdateCategorie = async function(req, res) {
     try {
         updatedcat = await categorie.findByIdAndUpdate(req.params.id, req.body.cat)
@@ -63,6 +67,7 @@ var UpdateCategorie = async function(req, res) {
     }
 }
 
+//Deleting Categories
 var deleteCategorie = async function(req, res) {
     try {
         var dele = await categorie.findByIdAndRemove(req.params.id)
@@ -79,24 +84,25 @@ var searchCategorie = function(req, res) {
     })
 }
 
-var rangeCategorie = function(req, res) {
-    var price1 = parseInt(req.query.price1)
-    var price2 = parseInt(req.query.price2)
-    var last = new Date()
-        //last.setDate(last.getDate() - 4);
-        //console.log(last)
-        //product.find({ created_date: { '$lt': Date("2020-07-16T04:57:26.600Z") } }, function(err, res) {
-        //  console.log(res)
-        //})
-    product.find({ price: { $gt: price1, $lt: price2 } }, function(err, response) {
-        res.json(response);
-    });
-}
-
 var sortCategorie = async function(req, response) {
     try {
+        var pricef, pricet
+        if (!req.query.price1 && !req.query.price2) {
+            pricef = 0
+            pricet = 100000
+        } else {
+            pricef = parseInt(req.query.price1)
+            pricet = parseInt(req.query.price2)
+        }
+        var name
+        if (!req.query.name) {
+            name = {}
+        } else {
+            name = req.query.name
+        }
         var s = parseInt(req.query.sort)
         var d = parseInt(req.query.date)
+            //console.log(name)
         var products = await product.aggregate([{
                 $lookup: {
                     from: "categories",
@@ -108,7 +114,8 @@ var sortCategorie = async function(req, response) {
             {
                 $match: {
                     'cat.status': { $ne: "block" },
-                    'price': { $gte: 1000, $lte: 50000 }
+                    'price': { $gte: pricef, $lte: pricet },
+                    // 'name': { $eq: new RegExp(name, 'i') }
                 }
             }
         ]).sort({ price: s, created_date: s })
@@ -121,4 +128,4 @@ var sortCategorie = async function(req, response) {
 }
 
 
-module.exports = { Allcategorie, AddCategorie, EditCategorie, UpdateCategorie, deleteCategorie, searchCategorie, rangeCategorie, sortCategorie }
+module.exports = { Allcategorie, AddCategorie, EditCategorie, UpdateCategorie, deleteCategorie, searchCategorie, sortCategorie }

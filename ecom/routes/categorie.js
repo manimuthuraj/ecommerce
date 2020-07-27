@@ -33,9 +33,6 @@ router.delete("/categorie/:id", middleware.isAdmin, controller.deleteCategorie)
 //search
 router.get("/search", controller.searchCategorie)
 
-//range
-router.get("/range", controller.rangeCategorie)
-
 // sort price high to low,low to high
 router.get("/sort", controller.sortCategorie)
 

@@ -1,38 +1,31 @@
-<form id="form1" method="GET">
+<!--<form id="form1" method="GET">
     <input type="text" name="name">
     <button>search</button>
-</form>
+</form>-->
 
 <%if(Object.keys(products).length != 0){%>
     <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter
+        <form method="GET" id="form3">
+            <input type="text" name="name" placeholder="search">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter
     <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-            <li>
-                <form id="form2" method="GET">price
-                    <input type="number" name="price1" min="0" required>-
-                    <input type="number" name="price2" required>
+            <ul class="dropdown-menu">
+                <li>
+                    Price
+                    <input type="number" name="price1" min="0">-
+                    <input type="number" name="price2">
                     <input type="hidden" name="id" value="<%=products[0].categorie%>">
-                    <button>search</button>
-                </form>
-            </li>
-            <li>
-                <form method="GET" id="form3">Price
                     <input type="radio" name="sort" value=-1>high to low
                     <input type="radio" name="sort" value=1 checked>Low to high
                     <input type="radio" name="date" value=-1 checked>new to old
                     <input type="radio" name="date" value=1>old to new
-                    <input type="hidden" name="id" value="<%=products[0].categorie%>">
-                    <button>submit</button>
-                </form>
-                <!--  <form method="GET" id="form4">Date
-                <input type="radio" name="date" value=-1>new to old
-                <input type="radio" name="date" value=1>old to new
-                <input type="hidden" name="id" value="<%=products[0].categorie%>">
-                <button>submit</button>
-            </form>-->
-            </li>
-        </ul>
+
+
+                </li>
+            </ul>
+            <input type="hidden" name="id" value="<%=products[0].categorie%>">
+            <button class="btn btn-warning btn-sm">search</button>
+        </form>
     </div>
     <%}%>
         <script>
@@ -92,25 +85,6 @@
                     });
                 });
             });
-            $(function() {
-                $("#form4").submit(function(event) {
-                    event.preventDefault();
-                    $.ajax({
-                        type: 'GET',
-                        url: '/sort/date/products',
-                        data: $('#form4').serialize(),
-                        datatype: 'jsonp',
-                        success: function(k) {
-                            var t = $('#con')
-                            var se = $('#se')
-                            t.html('')
-                            se.html('')
-                            successq(k);
-                        }
-                    });
-                });
-            });
-
 
             function successq(k) {
                 var se = $('#se')

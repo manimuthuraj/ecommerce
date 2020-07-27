@@ -1,5 +1,6 @@
 var nodemailer = require("nodemailer")
 
+//Cheking Admin or not
 async function isAdmin(req, res, next) {
     if (req.isAuthenticated()) {
         id = await (req.user.role)
@@ -14,6 +15,7 @@ async function isAdmin(req, res, next) {
     }
 }
 
+//checing logedin or not and if yes restricting from registrattion and login page
 async function islogedin(req, res, next) {
     if (req.isAuthenticated()) {
         return res.redirect("/")
@@ -21,6 +23,7 @@ async function islogedin(req, res, next) {
     next()
 }
 
+//Checking logedin or not and if not saying pleasing login 
 async function logedin(req, res, next) {
     if (req.isAuthenticated()) {
         next()
@@ -30,6 +33,7 @@ async function logedin(req, res, next) {
     }
 }
 
+//Sending welcome mail when user singup
 async function mail(gm) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -57,6 +61,8 @@ async function mail(gm) {
     }
 }
 
+
+//changing user password and sending password to user
 async function mailPw(gm, pw, user) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -84,6 +90,7 @@ async function mailPw(gm, pw, user) {
     }
 }
 
+//exporting methods
 module.exports = {
     isAdmin,
     islogedin,

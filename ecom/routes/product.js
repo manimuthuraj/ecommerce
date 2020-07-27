@@ -26,22 +26,7 @@ router.put("/products/:id", middleware.isAdmin, controller.UpdateProduct)
 //deleting products
 router.delete("/products/:id", middleware.isAdmin, controller.DeleteProduct)
 
-router.get("/range/products", function(req, res) {
-    var query = { $and: [{ price: { $gt: req.query.price1, $lt: req.query.price2 } }, { categorie: req.query.id }] }
-    product.find(query, function(err, response) {
-        res.json(response)
-    })
-})
-
-router.get("/sort/products", async function(req, res) {
-    try {
-        var s = parseInt(req.query.sort)
-        var d = parseInt(req.query.date)
-        var response = await product.find({ categorie: req.query.id }).sort({ price: s, created_date: d })
-        res.json(response)
-    } catch (e) {
-        console.log(e)
-    }
-})
+//sort and filter products
+router.get("/sort/products", controller.sortProduct)
 
 module.exports = router

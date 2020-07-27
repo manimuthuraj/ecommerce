@@ -4,10 +4,14 @@ var categorie = require("../models/categorie")
 var product = require("../models/product")
 var carts = require("../models/cart")
 var middleware = require("../middleware/index");
+var mod = require("../mod/user")
+var userorder = require("../models/myorder")
 
+//Listing products in the cart
 var cartList = async function(req, res) {
     try {
         var cart = await carts.find({ user: req.user._id })
+        var cart = await mod.cart(req.user._id)
         var subtotal = await carts.find({ user: req.user._id })
         var subtotals = 0
         subtotal.forEach(function(x) {
@@ -20,6 +24,7 @@ var cartList = async function(req, res) {
     }
 }
 
+//adding items to cart
 var addCart = async function(req, res) {
     try {
         var cart = await product.findById(req.body.product)
@@ -34,6 +39,7 @@ var addCart = async function(req, res) {
     }
 }
 
+//edting items in the cart
 var editCart = async function(req, res) {
     try {
         var cartItem = await carts.findById(req.body.id)
@@ -46,14 +52,32 @@ var editCart = async function(req, res) {
     }
 }
 
+//Delete items in the cart
 var deleteCart = function(req, res) {
     carts.findByIdAndRemove(req.params.id, function(err) {
         if (err) {
             console.log(err)
+            req.flash("error", "something went wrong" + err + "")
             res.redirect("/")
         } else {
-            res.redirect("/")
+            res.redirect("/cart")
         }
     })
 }
-module.exports = { cartList, addCart, editCart, deleteCart }
+
+//Adding items to the cart and MyOrders when user buy
+var buyOrder = async function(req, res) {
+    try {
+        var cart = await product.findById(req.body.product)
+        var createCart = { name: cart.name, quantity: 1, price: cart.price, total: cart.price, image: cart.image, product: cart._id, user: req.user._id }
+        var addcart = await carts.create(createCart)
+        var order = await userorder.create(createCart)
+            //console.log(order)
+        res.redirect("/cart")
+    } catch (e) {
+        console.log(e)
+        req.flash("error", "something went wrong")
+        res.redirect("/cart")
+    }
+}
+module.exports = { cartList, addCart, editCart, deleteCart, buyOrder }

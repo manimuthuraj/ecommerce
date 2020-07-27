@@ -16,4 +16,7 @@ router.get("/admin/user", controller.adminUserpanel)
 //user password change
 router.put("/admin/user", controller.userPasswordchange)
 
+//block or unblockuser 
+router.put("/admin/status", controller.changeStatus)
+
 module.exports = router

@@ -3,21 +3,49 @@
         <p id="message">&#x1f61f Please
             <a href="/login">Login or register</a> to view your profile</p>
         <%}else{%>
-            <div class="card">
-                <img src="http://localhost:3000/<%=currentUser.image%>" alt="Profile pic" style="width:80%">
-                <h1></h1>
-                <p class="title">
-                    <%=currentUser.username%>
-                </p>
-                <form action="/user?_method=PUT" method="POST" id="myform">
-                    <div class="form-group">
-                        <label for="password">Current password</label>
-                        <input type="password" class="form-control" id="password" name="user" placeholder="Current password" required min="3" max="8">
-                        <label for="password">New password</label>
-                        <input type="password" class="form-control" id="Newpassword" name="newuser" placeholder="New password" required min="4" max="8">
-                    </div>
-                    <button class="btn btn-warning tn-sm">Submit</button>
-                </form>
+            <div class="container row">
+                <div class="card col-md-6">
+                    <img src="http://localhost:3000/<%=currentUser.image%>" alt="Profile pic" style="width:80%">
+                    <h1></h1>
+                    <p class="title">
+                        <%=currentUser.username%>
+                    </p>
+                    <form action="/user?_method=PUT" method="POST" id="myform">
+                        <div class="form-group">
+                            <label for="password">Current password</label>
+                            <input type="password" class="form-control" id="password" name="user" placeholder="Current password" required min="3" max="8">
+                            <label for="password">New password</label>
+                            <input type="password" class="form-control" id="Newpassword" name="newuser" placeholder="New password" required min="4" max="8">
+                        </div>
+                        <button class="btn btn-warning tn-sm">Submit</button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <h1>My Orders</h1>
+                    <%if(Object.keys(order).length === 0){%>
+                        <h1 id="message"> No products in My orders yet Buy products to see </h1>
+                        <%}%>
+
+                            <%order.forEach(function(x){%>
+                                <div class="thumbnail" style="width: 60%;height: 10%;">
+                                    <div class="caption">
+                                        <p>
+                                            name:
+                                            <%=x.name%>
+                                                quantity:
+                                                <%=x.quantity%>
+                                                    total:
+                                                    <%=x.total%>
+                                                        date:
+                                                        <%=x.created_date%>
+                                                            <form id="delete" action="/order/<%= x._id %>?_method=DELETE" method="post">
+                                                                <button class="btn btn-warning btn-xs">DELETE</button>
+                                                            </form>
+                                        </p>
+                                    </div>
+                                </div>
+                                <%})%>
+                </div>
             </div>
 
             <%}%>

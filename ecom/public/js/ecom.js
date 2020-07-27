@@ -18,25 +18,6 @@ $(function() {
 });
 
 $(function() {
-    $("#form2").submit(function(event) {
-        event.preventDefault();
-        $.ajax({
-            type: 'GET',
-            url: '/range',
-            data: $('#form2').serialize(),
-            datatype: 'jsonp',
-            success: function(k) {
-                var t = $('#con')
-                var se = $('#se')
-                t.html('')
-                se.html('')
-                successq(k);
-            }
-        });
-    });
-});
-
-$(function() {
     $("#form3").submit(function(event) {
         event.preventDefault();
         $.ajax({
@@ -54,26 +35,6 @@ $(function() {
         });
     });
 });
-
-$(function() {
-    $("#form4").submit(function(event) {
-        event.preventDefault();
-        $.ajax({
-            type: 'GET',
-            url: '/sort/date',
-            data: $('#form4').serialize(),
-            datatype: 'jsonp',
-            success: function(k) {
-                var t = $('#con')
-                var se = $('#se')
-                t.html('')
-                se.html('')
-                successq(k);
-            }
-        });
-    });
-});
-
 
 function successq(k) {
     var se = $('#se')

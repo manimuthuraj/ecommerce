@@ -27,25 +27,15 @@
         <span class="caret"></span></button>
         <ul class="dropdown-menu">
             <li>
-                <form id="form2" method="GET">price
-                    <input type="number" name="price1" min="0" required>-
-                    <input type="number" name="price2" required>
-                    <button>search</button>
-                </form>
-            </li>
-            <li>
                 <form method="GET" id="form3">Price
+                    <input type="number" name="price1" min="0">-
+                    <input type="number" name="price2">
                     <input type="radio" name="sort" value=-1>high to low
                     <input type="radio" name="sort" value=1 checked>Low to high
                     <input type="radio" name="date" value=-1 checked>new to old
                     <input type="radio" name="date" value=1>old to new
                     <button>submit</button>
                 </form>
-                <!-- <form method="GET" id="form4">Date
-                    <input type="radio" name="date" value=-1>new to old
-                    <input type="radio" name="date" value=1>old to new
-                    <button>submit</button>
-                </form>-->
             </li>
         </ul>
     </div>
@@ -56,7 +46,7 @@
             <% products.forEach(function(x){%>
                 <div class="cl-md-3 col-sm-6 col-lg-4">
                     <!--<a href="/products/<%=x._id %>/edit"> -->
-                    <div class="thumbnail" style="width: 80%;height: 80%;;box-shadow: 1px 1px 2px 2px rgb(204, 182, 142);">
+                    <div class="thumbnail" style="width: 80%;height: 90%;;box-shadow: 1px 1px 2px 2px rgb(204, 182, 142);">
                         <div class="caption">
                             <p>name</p>
                             <p id="name">
@@ -68,11 +58,15 @@
                                     <%=x.price%>
                                 </p>
                                 <img src="http://localhost:3000/<%=x.image%>" width="50%" height="50%">
+                                <form action="/cart" method="POST">
+                                    <input type="hidden" value="<%=x._id%>" name="product">
+                                    <button class="btn btn-warning btn-xs">addtocart</button>
+                                </form>
+                                <form action="/buy" method="POST">
+                                    <input type="hidden" value="<%=x._id%>" name="product">
+                                    <button class="btn btn-warning btn-xs">buy</button>
+                                </form>
                         </div>
-                        <form action="/cart" method="POST">
-                            <input type="hidden" value="<%=x._id%>" name="product">
-                            <button class="btn btn-warning btn-xs">addtocart</button>
-                        </form>
                     </div>
                     </a>
                 </div>

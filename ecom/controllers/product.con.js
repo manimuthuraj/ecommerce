@@ -6,6 +6,7 @@ var multer = require('multer')
 var upload = multer({ dest: 'uploads' })
 var middleware = require("../middleware/index")
 
+//rendering create products form
 var CreateProduct = async function(req, res) {
     try {
         var cate = await categorie.find({}) //finding all categorie to display in the dropdown list
@@ -15,6 +16,8 @@ var CreateProduct = async function(req, res) {
         res.redirect("/")
     }
 }
+
+//creating products
 var AddProduct = async function(req, res) {
     try {
         var pro = { name: req.body.name, categorie: req.body.categorie, quantity: req.body.quantity, price: req.body.price, image: req.file.filename }
@@ -25,6 +28,8 @@ var AddProduct = async function(req, res) {
         res.redirect("/")
     }
 }
+
+//displaying products
 var ShowProduct = async function(req, res) {
     try {
         var id = req.params.id
@@ -37,6 +42,8 @@ var ShowProduct = async function(req, res) {
         res.redirect("/")
     }
 }
+
+//editing products
 var EditProduct = async function(req, res) {
     try {
         var cate = await categorie.find({})
@@ -48,6 +55,8 @@ var EditProduct = async function(req, res) {
         res.redirect("/")
     }
 }
+
+//updating products
 var UpdateProduct = async function(req, res) {
     try {
         var updatedproduct = await product.findByIdAndUpdate(req.params.id, req.body.product) //updating product based on id
@@ -57,6 +66,8 @@ var UpdateProduct = async function(req, res) {
         res.redirect("/")
     }
 }
+
+//Deleting products
 var DeleteProduct = function(req, res) {
     product.findByIdAndRemove(req.params.id, function(err) { //finding prosuct based on id and removing from db
         if (err) {
@@ -69,4 +80,31 @@ var DeleteProduct = function(req, res) {
 
 }
 
-module.exports = { CreateProduct, AddProduct, ShowProduct, EditProduct, UpdateProduct, DeleteProduct }
+//sorting and filtering products
+var sortProduct = async function(req, res) {
+    try {
+        var s = parseInt(req.query.sort)
+        var d = parseInt(req.query.date)
+        var pricef, pricet
+        if (!req.query.price1 && !req.query.price2) {
+            pricef = 0
+            pricet = 1000000
+        } else {
+            pricef = parseInt(req.query.price1)
+            pricet = parseInt(req.query.price2)
+        }
+        var name
+        if (!req.query.name) {
+            name = {}
+        } else {
+            name = req.query.name
+        }
+        var query = { $and: [{ price: { $gt: pricef, $lt: pricet } }, { categorie: req.query.id }, { name: new RegExp(name, 'i') }] }
+        var response = await product.find(query).sort({ price: s, created_date: d })
+        res.json(response)
+    } catch (e) {
+        console.log(e)
+    }
+}
+
+module.exports = { CreateProduct, AddProduct, ShowProduct, EditProduct, UpdateProduct, DeleteProduct, sortProduct }
