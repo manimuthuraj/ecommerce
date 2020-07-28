@@ -5,13 +5,14 @@ var product = require("../models/product")
 var carts = require("../models/cart")
 var middleware = require("../middleware/index");
 var mod = require("../mod/user")
-var userorder = require("../models/myorder")
+var userorder = require("../models/myorder");
+const { update } = require("../models/categorie");
 
 //Listing products in the cart
 var cartList = async function(req, res) {
     try {
-        var cart = await carts.find({ user: req.user._id })
-        var cart = await mod.cart(req.user._id)
+        //var cart = await carts.find({ user: req.user._id })
+        var cart = await mod.cart(req.user._id) //mod file
         var subtotal = await carts.find({ user: req.user._id })
         var subtotals = 0
         subtotal.forEach(function(x) {
@@ -71,8 +72,9 @@ var buyOrder = async function(req, res) {
         var cart = await product.findById(req.body.product)
         var createCart = { name: cart.name, quantity: 1, price: cart.price, total: cart.price, image: cart.image, product: cart._id, user: req.user._id }
         var addcart = await carts.create(createCart)
+
         var order = await userorder.create(createCart)
-            //console.log(order)
+        var userOrdertotal = await userorder.find({ user: req.user._id })
         res.redirect("/cart")
     } catch (e) {
         console.log(e)

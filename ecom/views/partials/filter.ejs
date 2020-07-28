@@ -1,8 +1,3 @@
-<!--<form id="form1" method="GET">
-    <input type="text" name="name">
-    <button>search</button>
-</form>-->
-
 <%if(Object.keys(products).length != 0){%>
     <div class="dropdown">
         <form method="GET" id="form3">
@@ -29,44 +24,6 @@
     </div>
     <%}%>
         <script>
-            $(function() {
-                $("#form1").submit(function(event) {
-                    event.preventDefault();
-                    $.ajax({
-                        type: 'GET',
-                        url: '/search',
-                        data: $('#form1').serialize(),
-                        datatype: 'jsonp',
-                        success: function(k) {
-                            var t = $('#con')
-                            var se = $('#se')
-                            t.html('')
-                            se.html('')
-                            successq(k);
-                        }
-                    });
-                });
-            });
-
-            $(function() {
-                $("#form2").submit(function(event) {
-                    event.preventDefault();
-                    $.ajax({
-                        type: 'GET',
-                        url: '/range/products',
-                        data: $('#form2').serialize(),
-                        datatype: 'jsonp',
-                        success: function(k) {
-                            var t = $('#con')
-                            var se = $('#se')
-                            t.html('')
-                            se.html('')
-                            successq(k);
-                        }
-                    });
-                });
-            });
-
             $(function() {
                 $("#form3").submit(function(event) {
                     event.preventDefault();

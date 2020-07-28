@@ -17,28 +17,25 @@
                     <%}%>
                         <%}%>
     </div>
-    <form id="form1" method="GET">
-        <input type="text" name="name">
-        <button>search</button>
-    </form>
-
     <div class="dropdown">
-        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter
+        <form method="GET" id="form3">
+            <input type="text" name="name">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter
         <span class="caret"></span></button>
-        <ul class="dropdown-menu">
-            <li>
-                <form method="GET" id="form3">Price
+            <ul class="dropdown-menu">
+                <li>
+                    Price
                     <input type="number" name="price1" min="0">-
                     <input type="number" name="price2">
                     <input type="radio" name="sort" value=-1>high to low
                     <input type="radio" name="sort" value=1 checked>Low to high
                     <input type="radio" name="date" value=-1 checked>new to old
                     <input type="radio" name="date" value=1>old to new
-                    <button>submit</button>
-                </form>
-            </li>
-        </ul>
+                </li>
+            </ul>
+            <button class="btn btn-warning btn-sm">Search</button>
     </div>
+    </form>
     <hr>
 
     <div class="container" id="con">

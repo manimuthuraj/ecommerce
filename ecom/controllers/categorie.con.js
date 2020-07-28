@@ -115,10 +115,10 @@ var sortCategorie = async function(req, response) {
                 $match: {
                     'cat.status': { $ne: "block" },
                     'price': { $gte: pricef, $lte: pricet },
-                    // 'name': { $eq: new RegExp(name, 'i') }
+                    'name': new RegExp(name, 'i')
                 }
             }
-        ]).sort({ price: s, created_date: s })
+        ]).sort({ price: s, created_date: d })
         response.json(products)
     } catch (e) {
         console.log(e)

@@ -1,23 +1,4 @@
 $(function() {
-    $("#form1").submit(function(event) {
-        event.preventDefault();
-        $.ajax({
-            type: 'GET',
-            url: '/search',
-            data: $('#form1').serialize(),
-            datatype: 'jsonp',
-            success: function(k) {
-                var t = $('#con')
-                var se = $('#se')
-                t.html('')
-                se.html('')
-                successq(k);
-            }
-        });
-    });
-});
-
-$(function() {
     $("#form3").submit(function(event) {
         event.preventDefault();
         $.ajax({

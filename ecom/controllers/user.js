@@ -11,7 +11,12 @@ mod = require("../mod/user")
 var user = async function(req, res) {
     try {
         var order = await userorder.find({ user: req.user._id })
-        res.render("userProfile/profile", { order: order })
+        var subtotal = await userorder.find({ user: req.user._id })
+        var subtotals = 0
+        subtotal.forEach(function(x) {
+            subtotals = subtotals + x.total
+        })
+        res.render("userProfile/profile", { order: order, subtotals })
     } catch (e) {
         console.log(e)
     }

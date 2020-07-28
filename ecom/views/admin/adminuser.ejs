@@ -1,24 +1,66 @@
 <%- include("../partials/header") %>
-    <%users.forEach(function(x){%>
-        <%if(x.role!='admin'){%>
-            <h4>
-                <%=x.username%>
-            </h4>
-            <form action="/admin/user?_method=PUT" method="POST">
-                <input type="hidden" value="<%=x._id%>" name="id">
-                <button class="btn btn-warning btn-xs">change Password</button>
-            </form>
-            <%=x.status%>
-                <form action="/admin/status?_method=PUT" method="POST">
-                    <input type="hidden" value="<%=x._id%>" name="id">
-                    <button class="btn btn-warning btn-xs">change status</button>
-                </form>
-                <%}%>
-                    <%})%>
 
-                        <style>
-                            h4 {
-                                margin-top: 2%;
-                            }
-                        </style>
-                        <%- include("../partials/footer") %>
+    <table>
+        <tr>
+            <th>username</th>
+            <th>status</th>
+        </tr>
+        <tr>
+            <%users.forEach(function(x){%>
+                <td>
+                    <%=x.username%>
+                        <form action="/admin/user?_method=PUT" method="POST">
+                            <input type="hidden" value="<%=x._id%>" name="id">
+                            <button class="btn btn-warning btn-xs">change Password</button>
+                        </form>
+                </td>
+                <td>
+                    <%=x.status%>
+                        <form action="/admin/status?_method=PUT" method="POST">
+                            <input type="hidden" value="<%=x._id%>" name="id">
+                            <button class="btn btn-warning btn-xs">change status</button>
+                        </form>
+                </td>
+        </tr>
+        <%})%>
+    </table>
+
+    <table>
+        <th>totaluser</th>
+        <th>totalproducts</th>
+        <th>totalamount</th>
+        <tr>
+            <td>
+                <%=totaluser%>
+            </td>
+            <td>
+                <%=totalproducts%>
+            </td>
+            <td>
+                <%=subtotal%>
+            </td>
+        </tr>
+    </table>
+
+    <style>
+        h4 {
+            margin-top: 2%;
+        }
+        
+        table {
+            margin: 5%;
+        }
+        
+        table,
+        th,
+        td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        
+        th,
+        td {
+            padding: 15px;
+        }
+    </style>
+    <%- include("../partials/footer") %>

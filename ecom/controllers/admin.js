@@ -4,6 +4,7 @@ var bcrypt = require("bcrypt")
 var categorie = require("../models/categorie")
 var product = require("../models/product")
 var euser = require("../models/euser")
+var userorder = require("../models/myorder")
 var controller = require("../controllers/admin")
 var email = require("../middleware/index")
 
@@ -24,8 +25,19 @@ var Dashboard = async function(req, res) {
 //Listing Active and blocked user
 var adminUserpanel = async function(req, res) {
     try {
-        var users = await euser.find()
-        res.render("admin/adminuser", { users: users })
+        var users = await euser.find({ role: { $ne: 'admin' } })
+        var orders = await userorder.find()
+        var totaluser = 0
+        users.forEach(function(x) {
+            totaluser = totaluser + 1
+        })
+        var totalproducts = 0
+        var subtotal = 0
+        orders.forEach(function(x) {
+            totalproducts = totalproducts + 1
+            subtotal = subtotal + x.total
+        })
+        res.render("admin/adminuser", { users: users, totaluser: totaluser, totalproducts: totalproducts, subtotal: subtotal, orders: orders })
     } catch (e) {
         console.log(e)
     }

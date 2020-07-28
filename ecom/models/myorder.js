@@ -18,6 +18,7 @@ var orderSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "euser"
     },
+    subtotal: { type: Number, default: 0 }
 })
 
 module.exports = mongoose.model("userorder", orderSchema)
