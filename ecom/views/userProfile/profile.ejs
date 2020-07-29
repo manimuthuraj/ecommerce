@@ -38,11 +38,9 @@
                                                     <%=x.total%>
                                                         date:
                                                         <%=x.created_date%>
-                                                            subtotal:
-                                                            <%=x.subtotal%>
-                                                                <form id="delete" action="/order/<%= x._id %>?_method=DELETE" method="post">
-                                                                    <button class="btn btn-warning btn-xs">DELETE</button>
-                                                                </form>
+                                                            <form id="delete" action="/cart/<%= x._id %>?_method=DELETE" method="post">
+                                                                <button class="btn btn-danger btn-xs">DELETE</button>
+                                                            </form>
                                         </p>
                                     </div>
                                 </div>

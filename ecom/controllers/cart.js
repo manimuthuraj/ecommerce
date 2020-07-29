@@ -5,7 +5,7 @@ var product = require("../models/product")
 var carts = require("../models/cart")
 var middleware = require("../middleware/index");
 var mod = require("../mod/user")
-var userorder = require("../models/myorder");
+
 const { update } = require("../models/categorie");
 
 //Listing products in the cart
@@ -29,7 +29,7 @@ var cartList = async function(req, res) {
 var addCart = async function(req, res) {
     try {
         var cart = await product.findById(req.body.product)
-        var createCart = { name: cart.name, quantity: 1, price: cart.price, total: cart.price, image: cart.image, product: cart._id, user: req.user._id }
+        var createCart = { name: cart.name, quantity: 1, price: cart.price, total: cart.price, image: cart.image, product: cart._id, user: req.user._id, status: "c" }
         var addcart = await carts.create(createCart)
         req.flash("error", "added to cart")
         res.redirect("/")
@@ -70,11 +70,11 @@ var deleteCart = function(req, res) {
 var buyOrder = async function(req, res) {
     try {
         var cart = await product.findById(req.body.product)
-        var createCart = { name: cart.name, quantity: 1, price: cart.price, total: cart.price, image: cart.image, product: cart._id, user: req.user._id }
+        var createCart = { name: cart.name, quantity: 1, price: cart.price, total: cart.price, image: cart.image, product: cart._id, user: req.user._id, status: "b" }
         var addcart = await carts.create(createCart)
-
-        var order = await userorder.create(createCart)
-        var userOrdertotal = await userorder.find({ user: req.user._id })
+            // console.log(addcart)
+            //var order = await userorder.create(createCart)
+            //var userOrdertotal = await userorder.find({ user: req.user._id })
         res.redirect("/cart")
     } catch (e) {
         console.log(e)

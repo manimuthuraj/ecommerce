@@ -4,7 +4,7 @@ var bcrypt = require("bcrypt")
 var categorie = require("../models/categorie")
 var product = require("../models/product")
 var euser = require("../models/euser")
-var userorder = require("../models/myorder")
+var carts = require("../models/cart")
 var controller = require("../controllers/admin")
 var email = require("../middleware/index")
 
@@ -26,7 +26,7 @@ var Dashboard = async function(req, res) {
 var adminUserpanel = async function(req, res) {
     try {
         var users = await euser.find({ role: { $ne: 'admin' } })
-        var orders = await userorder.find()
+        var orders = await carts.find({ status: { $ne: 'c' } })
         var totaluser = 0
         users.forEach(function(x) {
             totaluser = totaluser + 1
@@ -34,10 +34,43 @@ var adminUserpanel = async function(req, res) {
         var totalproducts = 0
         var subtotal = 0
         orders.forEach(function(x) {
-            totalproducts = totalproducts + 1
-            subtotal = subtotal + x.total
-        })
-        res.render("admin/adminuser", { users: users, totaluser: totaluser, totalproducts: totalproducts, subtotal: subtotal, orders: orders })
+                totalproducts = totalproducts + 1
+                subtotal = subtotal + x.total
+            })
+            //
+        var user = await carts.aggregate([{
+                $group: {
+                    _id: "$user",
+                    carts: { $push: "$total" },
+                    totalproduct: { $sum: 1 },
+                    sub: { $sum: "$total" }
+                }
+            }])
+            //
+        var products = await carts.aggregate([{
+            $lookup: {
+                from: "eusers",
+                localField: "user",
+                foreignField: "_id",
+                as: "cat"
+            }
+
+        }, {
+            $match: {
+                'status': { $ne: "c" }
+            }
+        }, {
+            $group: {
+                _id: "$cat.username",
+                status: { $push: "$cat.status" },
+                carts: { $push: "$total" },
+                totalproduct: { $sum: 1 },
+                sub: { $sum: "$total" }
+            }
+        }])
+        console.log(products)
+            //console.log(user)
+        res.render("admin/adminuser", { users: users, totaluser: totaluser, totalproducts: totalproducts, subtotal: subtotal })
     } catch (e) {
         console.log(e)
     }

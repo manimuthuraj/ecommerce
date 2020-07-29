@@ -4,16 +4,18 @@ var router = express.Router()
 var euser = require("../models/euser")
 var multer = require('multer')
 var userorder = require("../models/myorder")
+var carts = require("../models/cart")
 var upload = multer({ dest: 'uploads' })
 mod = require("../mod/user")
 
 //User Profile
 var user = async function(req, res) {
     try {
-        var order = await userorder.find({ user: req.user._id })
-        var subtotal = await userorder.find({ user: req.user._id })
+        // var order = await userorder.find({ user: req.user._id })
+        // var subtotal = await userorder.find({ user: req.user._id })
+        var order = await carts.find({ user: req.user._id, status: { $ne: 'c' } })
         var subtotals = 0
-        subtotal.forEach(function(x) {
+        order.forEach(function(x) {
             subtotals = subtotals + x.total
         })
         res.render("userProfile/profile", { order: order, subtotals })

@@ -1,5 +1,5 @@
 <%- include("../partials/header") %>
-
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <table>
         <tr>
             <th>username</th>
@@ -27,8 +27,8 @@
 
     <table>
         <th>totaluser</th>
-        <th>totalproducts</th>
-        <th>totalamount</th>
+        <th>totalproducts purchased</th>
+        <th>totalamount of all products</th>
         <tr>
             <td>
                 <%=totaluser%>
@@ -62,5 +62,12 @@
         td {
             padding: 15px;
         }
+        
+        #mychart {
+            width: 10%;
+            height: 10%;
+        }
     </style>
+
+
     <%- include("../partials/footer") %>
