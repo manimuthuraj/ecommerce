@@ -3,7 +3,6 @@ var bcrypt = require("bcrypt")
 var router = express.Router()
 var euser = require("../models/euser")
 var multer = require('multer')
-var userorder = require("../models/myorder")
 var carts = require("../models/cart")
 var upload = multer({ dest: 'uploads' })
 mod = require("../mod/user")
@@ -44,19 +43,5 @@ var userEdit = async function(req, res) {
     }
 }
 
-//delete items in the MyOrder list
-var deleteOrder = function(req, res) {
-    userorder.findByIdAndRemove(req.params.id, function(err) { //finding userorder based on id and removing from db
-        if (err) {
-            console.log(err)
-            req.flash("error", "something went wrong")
-            res.redirect("/")
-        } else {
-            req.flash("error", "your order deleted sucessfully")
-            res.redirect("/user")
-        }
-    })
 
-}
-
-module.exports = { user, userEdit, deleteOrder }
+module.exports = { user, userEdit }

@@ -26,6 +26,25 @@
     </table>
 
     <table>
+        <th>username</th>
+        <th>totalproducts purchased</th>
+        <th>totalamount of products</th>
+        <tr>
+            <%userInformation.forEach(function(x){%>
+                <td>
+                    <%=x._id.username%>
+                </td>
+                <td>
+                    <%=x._id.totalproduct%>
+                </td>
+                <td>
+                    <%=x._id.sub%>
+                </td>
+        </tr>
+        <%})%>
+    </table>
+
+    <table>
         <th>totaluser</th>
         <th>totalproducts purchased</th>
         <th>totalamount of all products</th>
@@ -41,6 +60,51 @@
             </td>
         </tr>
     </table>
+    <div id="chartContainer" style="height: 300px; width: 70%;"></div>
+    <script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+
+    <script>
+        window.onload = function() {
+
+            var dataPoints = [];
+
+            var options = {
+                animationEnabled: true,
+                theme: "light2",
+                title: {
+                    text: " Sales Data"
+                },
+                axisX: {
+                    valueFormatString: "",
+                },
+                axisY: {
+                    title: "price",
+                    titleFontSize: 24,
+                    includeZero: false
+                },
+                data: [{
+                    title: "products",
+                    type: "spline",
+                    yValueFormatString: "Rs######",
+                    dataPoints: dataPoints
+                }]
+            };
+
+            function addData(data) {
+                for (var i = 0; i < data.length; i++) {
+                    dataPoints.push({
+                        x: data[i]._id.totalproduct,
+                        y: data[i]._id.sub
+                    });
+                }
+                $("#chartContainer").CanvasJSChart(options);
+                console.log(data, dataPoints)
+            }
+            $.getJSON("http://localhost:3000/admin/user/json", addData);
+
+        }
+    </script>
 
     <style>
         h4 {

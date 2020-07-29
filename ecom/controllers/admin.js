@@ -27,54 +27,89 @@ var adminUserpanel = async function(req, res) {
     try {
         var users = await euser.find({ role: { $ne: 'admin' } })
         var orders = await carts.find({ status: { $ne: 'c' } })
-        var totaluser = 0
-        users.forEach(function(x) {
-            totaluser = totaluser + 1
-        })
+        var totaluser = await euser.count({ role: { $ne: 'admin' } })
         var totalproducts = 0
         var subtotal = 0
         orders.forEach(function(x) {
-                totalproducts = totalproducts + 1
-                subtotal = subtotal + x.total
-            })
-            //
-        var user = await carts.aggregate([{
-                $group: {
-                    _id: "$user",
-                    carts: { $push: "$total" },
-                    totalproduct: { $sum: 1 },
-                    sub: { $sum: "$total" }
-                }
-            }])
-            //
-        var products = await carts.aggregate([{
-            $lookup: {
-                from: "eusers",
-                localField: "user",
-                foreignField: "_id",
-                as: "cat"
-            }
+            totalproducts = totalproducts + 1
+            subtotal = subtotal + x.total
+        })
 
-        }, {
-            $match: {
-                'status': { $ne: "c" }
+        var userInformation = await carts.aggregate([{
+                $lookup: {
+                    from: "eusers",
+                    localField: "user",
+                    foreignField: "_id",
+                    as: "use"
+                }
+
+            }, {
+                $match: {
+                    'status': { $ne: "c" }
+                }
+            }, {
+                $unwind: {
+                    path: "$use",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        username: "$use.username",
+                        status: "$use.status",
+                        totalproduct: { $sum: 1 },
+                        sub: { $sum: "$total" }
+                    },
+                }
             }
-        }, {
-            $group: {
-                _id: "$cat.username",
-                status: { $push: "$cat.status" },
-                carts: { $push: "$total" },
-                totalproduct: { $sum: 1 },
-                sub: { $sum: "$total" }
-            }
-        }])
-        console.log(products)
-            //console.log(user)
-        res.render("admin/adminuser", { users: users, totaluser: totaluser, totalproducts: totalproducts, subtotal: subtotal })
+        ]);
+
+        res.render("admin/adminuser", { users: users, totaluser: totaluser, totalproducts: totalproducts, subtotal: subtotal, userInformation: userInformation })
     } catch (e) {
         console.log(e)
     }
 }
+
+//json data for graph represtation
+var json = async function(req, res) {
+    try {
+        var userInformation = await carts.aggregate([{
+                $lookup: {
+                    from: "eusers",
+                    localField: "user",
+                    foreignField: "_id",
+                    as: "use"
+                }
+
+            }, {
+                $match: {
+                    'status': { $ne: "c" }
+                }
+            }, {
+                $unwind: {
+                    path: "$use",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        username: "$use.username",
+                        status: "$use.status",
+                        totalproduct: { $sum: 1 },
+                        sub: { $sum: "$total" }
+                    },
+                }
+            }
+        ]);
+
+        res.json(userInformation)
+    } catch (e) {
+        console.log(e)
+    }
+}
+
 
 //Changing user password
 var userPasswordchange = async function(req, res) {
@@ -112,4 +147,4 @@ var changeStatus = async function(req, res) {
         res.redirect("/")
     }
 }
-module.exports = { Dashboard, adminUserpanel, userPasswordchange, changeStatus }
+module.exports = { Dashboard, adminUserpanel, userPasswordchange, changeStatus, json }

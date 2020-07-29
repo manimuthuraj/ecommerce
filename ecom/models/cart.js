@@ -18,7 +18,7 @@ var cartSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "euser"
     },
-    status: { type: String }
+    status: { type: String, enum: ['c', 'b'] }
 })
 
 module.exports = mongoose.model("cart", cartSchema)

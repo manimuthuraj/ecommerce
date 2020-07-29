@@ -88,3 +88,39 @@ try {
                     <input type="hidden" value="<%=x._id%>" name="id">
                     <button class="btn btn-warning btn-xs">change status</button>
                 </form>-->
+
+//
+
+var user = await carts.aggregate([{
+                $group: {
+                    _id: "$user",
+                    carts: { $push: "$total" },
+                    totalproduct: { $sum: 1 },
+                    sub: { $sum: "$total" }
+                }
+            }])
+            //
+            // var products = await carts.aggregate([{
+            //     $lookup: {
+            //         from: "eusers",
+            //         localField: "user",
+            //         foreignField: "_id",
+            //         as: "cat"
+            //     }
+
+        // }, {
+        //     $match: {
+        //         'status': { $ne: "c" }
+        //     }
+        // }, {
+        //     $group: {
+        //         _id: "$cat.username",
+        //         status: { $push: "$cat.status" },
+        //         carts: { $push: "$total" },
+        //         totalproduct: { $sum: 1 },
+        //         sub: { $sum: "$total" }
+        //     }
+        // }])
+        // console.log(products)
+
+        //
