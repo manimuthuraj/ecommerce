@@ -27,7 +27,8 @@ var addUser = async function(req, res) {
         var use = { username: req.body.username, password: hashedPassword, mail: req.body.mail, image: image }
         var eu = await euser.create(use)
         var userMail = req.body.mail
-        middleware.mail(userMail)
+        var user = req.body.username
+        middleware.mail(userMail, user)
         req.flash("error", "Now login and see your mail")
         res.redirect("/login")
     } catch (e) {

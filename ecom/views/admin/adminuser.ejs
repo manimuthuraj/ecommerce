@@ -29,6 +29,7 @@
         <th>username</th>
         <th>totalproducts purchased</th>
         <th>totalamount of products</th>
+        <th>date of purchased</th>
         <tr>
             <%userInformation.forEach(function(x){%>
                 <td>
@@ -39,6 +40,9 @@
                 </td>
                 <td>
                     <%=x._id.sub%>
+                </td>
+                <td>
+                    <%=x._id.created_date%>
                 </td>
         </tr>
         <%})%>
@@ -67,7 +71,11 @@
     <script>
         window.onload = function() {
 
-            var dataPoints = [];
+            var dataPoints = [].sort(function(a, b) {
+                var dateA = new Date(a.x),
+                    dateB = new Date(b.x)
+                return dateA - dateB //sort by date ascending
+            });
 
             var options = {
                 animationEnabled: true,
@@ -76,7 +84,7 @@
                     text: " Sales Data"
                 },
                 axisX: {
-                    valueFormatString: "",
+                    valueFormatString: "MMM DD YYYY",
                 },
                 axisY: {
                     title: "price",
@@ -86,21 +94,24 @@
                 data: [{
                     title: "products",
                     type: "spline",
-                    yValueFormatString: "Rs######",
+                    yValueFormatString: "######",
                     dataPoints: dataPoints
                 }]
             };
 
+
+
             function addData(data) {
                 for (var i = 0; i < data.length; i++) {
                     dataPoints.push({
-                        x: data[i]._id.totalproduct,
+                        x: new Date(data[i]._id.created_date),
                         y: data[i]._id.sub
                     });
                 }
                 $("#chartContainer").CanvasJSChart(options);
-                console.log(data, dataPoints)
+
             }
+
             $.getJSON("http://localhost:3000/admin/user/json", addData);
 
         }

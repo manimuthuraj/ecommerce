@@ -13,12 +13,16 @@ var cartList = async function(req, res) {
     try {
         //var cart = await carts.find({ user: req.user._id })
         var cart = await mod.cart(req.user._id) //mod file
-        var subtotal = await carts.find({ user: req.user._id })
-        var subtotals = 0
-        subtotal.forEach(function(x) {
-            subtotals = subtotals + x.total
-        })
-        res.render("cart/cart", { cart: cart, subtotal: subtotals })
+        var subs = await carts.aggregate([{
+            $match: { "user": req.user._id }
+        }, {
+            $unwind: {
+                path: "$user",
+                preserveNullAndEmptyArrays: true
+            }
+        }, { $group: { _id: "$user", subtotals: { $sum: "$total" } } }])
+
+        res.render("cart/cart", { cart: cart, subtotal: subs[0].subtotals })
     } catch (e) {
         console.log(e)
         res.redirect("/")
@@ -72,9 +76,6 @@ var buyOrder = async function(req, res) {
         var cart = await product.findById(req.body.product)
         var createCart = { name: cart.name, quantity: 1, price: cart.price, total: cart.price, image: cart.image, product: cart._id, user: req.user._id, status: "b" }
         var addcart = await carts.create(createCart)
-            // console.log(addcart)
-            //var order = await userorder.create(createCart)
-            //var userOrdertotal = await userorder.find({ user: req.user._id })
         res.redirect("/cart")
     } catch (e) {
         console.log(e)

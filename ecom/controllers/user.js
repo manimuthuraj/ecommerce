@@ -10,8 +10,6 @@ mod = require("../mod/user")
 //User Profile
 var user = async function(req, res) {
     try {
-        // var order = await userorder.find({ user: req.user._id })
-        // var subtotal = await userorder.find({ user: req.user._id })
         var order = await carts.find({ user: req.user._id, status: { $ne: 'c' } })
         var subtotals = 0
         order.forEach(function(x) {

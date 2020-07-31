@@ -34,7 +34,7 @@ async function logedin(req, res, next) {
 }
 
 //Sending welcome mail when user singup
-async function mail(gm) {
+async function mail(gm, user) {
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -49,8 +49,8 @@ async function mail(gm) {
     var mailOptions = {
         from: process.env.user,
         to: gm,
-        subject: 'Welcome to ecommerce website',
-        html: '<h1>Welcome<h1> <h5>Enoy the best shoping </h5>'
+        subject: 'Welcome to ecom website',
+        html: '<h1>Welcome,</h1>' + user + ' <h5>Enoy the best shoping </h5>'
     };
 
     try {

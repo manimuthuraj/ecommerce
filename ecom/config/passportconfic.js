@@ -1,14 +1,12 @@
 var express = require("express")
 var app = express()
-var categorie = require("../models/categorie")
-var product = require("../models/product")
 var euser = require("../models/euser")
 
 var passport = require("passport")
 var LocalStrategy = require("passport-local")
 var flash = require("connect-flash");
 
-module.exports = function() {
+module.exports = function(app) {
     app.use(flash());
     app.use(require("express-session")({
         secret: "mmr",

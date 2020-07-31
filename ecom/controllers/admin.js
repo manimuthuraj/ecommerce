@@ -7,6 +7,7 @@ var euser = require("../models/euser")
 var carts = require("../models/cart")
 var controller = require("../controllers/admin")
 var email = require("../middleware/index")
+var mod = require("../mod/admin")
 
 
 //Finding all categories and products for admin
@@ -26,15 +27,8 @@ var Dashboard = async function(req, res) {
 var adminUserpanel = async function(req, res) {
     try {
         var users = await euser.find({ role: { $ne: 'admin' } })
-        var orders = await carts.find({ status: { $ne: 'c' } })
         var totaluser = await euser.count({ role: { $ne: 'admin' } })
-        var totalproducts = 0
-        var subtotal = 0
-        orders.forEach(function(x) {
-            totalproducts = totalproducts + 1
-            subtotal = subtotal + x.total
-        })
-
+        var ords = await mod.orders //from mod subtotal and total no of products
         var userInformation = await carts.aggregate([{
                 $lookup: {
                     from: "eusers",
@@ -59,13 +53,13 @@ var adminUserpanel = async function(req, res) {
                         username: "$use.username",
                         status: "$use.status",
                         totalproduct: { $sum: 1 },
-                        sub: { $sum: "$total" }
+                        sub: { $sum: "$total" },
+                        created_date: "$created_date"
                     },
                 }
             }
         ]);
-
-        res.render("admin/adminuser", { users: users, totaluser: totaluser, totalproducts: totalproducts, subtotal: subtotal, userInformation: userInformation })
+        res.render("admin/adminuser", { users: users, totaluser: totaluser, totalproducts: ords[0].totalproducts, subtotal: ords[0].subtoatal, userInformation: userInformation })
     } catch (e) {
         console.log(e)
     }
@@ -98,7 +92,8 @@ var json = async function(req, res) {
                         username: "$use.username",
                         status: "$use.status",
                         totalproduct: { $sum: 1 },
-                        sub: { $sum: "$total" }
+                        sub: { $sum: "$total" },
+                        created_date: "$created_date"
                     },
                 }
             }
