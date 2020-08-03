@@ -6,6 +6,11 @@ var upload = multer({ dest: 'uploads' })
 var middleware = require("../middleware/index")
 var controller = require("../controllers/user")
 
+/**
+ * @api {get} user profile
+ * @apiName user
+ */
+
 //user profile
 router.get("/user", middleware.logedin, controller.user)
 

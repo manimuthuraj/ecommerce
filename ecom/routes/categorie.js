@@ -7,16 +7,25 @@ var middleware = require("../middleware/index");
 const { response } = require("express");
 
 /**
- * @api{get}/ categorie information
- * @apiadd Adding categorie
+ * @api {get} / list all categorie and products
+ * @apiName Allcategorie
+ * @apiGroup Categorie
  */
+
 //displaying categories 
 router.get("/", controller.Allcategorie)
+
 
 //adding new categorie
 router.get("/add", middleware.isAdmin, function(req, res) {
     res.render("add") //rendering categorie addition form
 })
+
+/**
+ * @api {post} /add add categorie 
+ * @apiName Allcategorie
+ * @apiGroup Categorie
+ */
 
 //adding new categorie
 router.post("/add", middleware.isAdmin, controller.AddCategorie)
@@ -24,11 +33,30 @@ router.post("/add", middleware.isAdmin, controller.AddCategorie)
 //editing categorie
 router.get("/categorie/:id", middleware.isAdmin, controller.EditCategorie)
 
+/**
+ * @api {put} /categorie/:id update categorie 
+ * @apiName Allcategorie
+ * @apiGroup Categorie
+ */
+
 //update categorie
 router.put("/categorie/:id", middleware.isAdmin, controller.UpdateCategorie)
 
-//deletinng categorie
+/**
+ * @api {delete} /categorie/:id delete categorie 
+ * @apiName Allcategorie
+ * @apiGroup Categorie
+ */
+
+
+//deleting categorie
 router.delete("/categorie/:id", middleware.isAdmin, controller.deleteCategorie)
+
+/**
+ * @api {get} /search products 
+ * @apiName Allcategorie
+ * @apiGroup Categorie
+ */
 
 //search
 router.get("/search", controller.searchCategorie)

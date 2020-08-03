@@ -1,0 +1,26 @@
+p {
+    margin: 10%;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.281);
+    max-width: 300px;
+    margin: auto;
+    margin-top: 5%;
+    text-align: center;
+}
+
+img {
+    border-radius: 50%;
+}
+
+.title {
+    color: orange;
+    font-size: 18px;
+}
+
+#password,
+#Newpassword {
+    width: 80%;
+    margin-left: 2%;
+}

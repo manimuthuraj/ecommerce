@@ -3,6 +3,7 @@ var router = express.Router();
 var categorie = require("../models/categorie")
 var product = require("../models/product")
 
+
 //Displaying Active Categorie and products
 var Allcategorie = async function(req, res) {
     try {

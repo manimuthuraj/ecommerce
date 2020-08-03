@@ -1,0 +1,13 @@
+.card {
+    background-color: rgba(255, 158, 31, 0.562);
+    width: 25%;
+    height: 50%;
+    margin-left: 5%;
+    border-radius: 2%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.thumbnail {
+    margin-left: 5%;
+}

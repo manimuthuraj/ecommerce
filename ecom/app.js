@@ -33,7 +33,6 @@ var cartRoute = require("./routes/cart")
 
 require("./config/passportconfic")(app)
 
-
 app.use(categorieRoute)
 app.use(productRoute)
 app.use(adminRoute)

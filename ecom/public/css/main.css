@@ -16,3 +16,17 @@
     width: 50px;
     border-radius: 50%;
 }
+
+.alert {
+    width: 50%;
+    background-color: rgba(252, 170, 19, 0.411);
+    color: black;
+    text-align: center;
+    margin-left: 23%;
+}
+
+#message {
+    color: rgb(0, 0, 73);
+    margin-left: 35%;
+    font-size: 135%;
+}
