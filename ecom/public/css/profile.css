@@ -24,3 +24,14 @@ img {
     width: 80%;
     margin-left: 2%;
 }
+
+.cards {
+    background-color: rgba(255, 158, 31, 0.562);
+    width: 35%;
+    height: 50%;
+    margin-left: 1%;
+    border-radius: 2%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+    margin-bottom: 2%;
+}

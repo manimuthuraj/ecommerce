@@ -19,8 +19,8 @@
     </div>
     <div class="dropdown">
         <form method="GET" id="form3">
-            <input type="text" name="name">
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Filter
+            <input type="text" name="name" placeholder="search">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><img src="https://img.icons8.com/material-outlined/14/000000/filter.png"/>Filter
         <span class="caret"></span></button>
             <ul class="dropdown-menu">
                 <li>
@@ -33,16 +33,31 @@
                     <input type="radio" name="date" value=1>old to new
                 </li>
             </ul>
-            <button class="btn btn-warning btn-sm">Search</button>
+            <button class="btn btn-warning btn-sm"><img src="https://img.icons8.com/material-outlined/10/000000/search.png"/>Search</button>
     </div>
     </form>
+    <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Feeds
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu">
+            <li>
+                <% feed.items.forEach(function(x){%>
+                    <div class="cards">
+                        <%=x.title%>:
+                            <a href="<%=x.link%>">Link</a>
+                    </div>
+
+                    <%})%>
+            </li>
+        </ul>
+    </div>
     <hr>
 
     <div class="container" id="con">
         <div class="row text-center" style="display:flex; flex-wrap: wrap;">
             <% products.forEach(function(x){%>
                 <div class="cl-md-3 col-sm-6 col-lg-4">
-                    <!--<a href="/products/<%=x._id %>/edit"> -->
+
                     <div class="thumbnail" style="width: 80%;height: 90%;;box-shadow: 1px 1px 2px 2px rgb(204, 182, 142);">
                         <div class="caption">
                             <p>name</p>
@@ -55,14 +70,16 @@
                                     <%=x.price%>
                                 </p>
                                 <img src="http://localhost:3000/<%=x.image%>" width="50%" height="50%">
-                                <form action="/cart" method="POST">
-                                    <input type="hidden" value="<%=x._id%>" name="product">
-                                    <button class="btn btn-warning btn-xs">addtocart</button>
-                                </form>
-                                <form action="/buy" method="POST">
-                                    <input type="hidden" value="<%=x._id%>" name="product">
-                                    <button class="btn btn-warning btn-xs">buy</button>
-                                </form>
+                                <div class="buttons">
+                                    <form action="/cart" method="POST">
+                                        <input type="hidden" value="<%=x._id%>" name="product">
+                                        <button class="btn btn-warning btn-xs">addtocart</button>
+                                    </form>
+                                    <form action="/buy" method="POST">
+                                        <input type="hidden" value="<%=x._id%>" name="product">
+                                        <button class="btn btn-warning btn-xs">buy</button>
+                                    </form>
+                                </div>
                         </div>
                     </div>
                     </a>
@@ -71,6 +88,8 @@
         </div>
     </div>
     </div>
+
+
     <div id="se">
         <div id="se2"></div>
     </div>

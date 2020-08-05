@@ -7,7 +7,7 @@ var middleware = require("../middleware/index");
 const { response } = require("express");
 
 /**
- * @api {get} / list all categorie and products
+ * @api {get} / list all categorie and product
  * @apiName Allcategorie
  * @apiGroup Categorie
  */

@@ -22,11 +22,14 @@
                     </form>
                 </div>
                 <div class="col-md-6">
-                    <h1>My Orders</h1>
+                    <h1>My Orders <img src="https://img.icons8.com/office/40/000000/shopping-basket.png" /></h1>
                     <%if(Object.keys(order).length === 0){%>
                         <h1 id="message"> No products in My orders yet Buy products to see </h1>
                         <%}%>
-
+                            <div class="cards">
+                                <img src="https://img.icons8.com/windows/32/000000/bill.png" /> subtotal:<img src="https://img.icons8.com/color/18/000000/rupee--v1.png" />
+                                <%=subtotals%>
+                            </div>
                             <%order.forEach(function(x){%>
                                 <div class="thumbnail" style="width: 60%;height: 10%;">
                                     <div class="caption">
@@ -50,10 +53,8 @@
             </div>
 
             <%}%>
-                <%=subtotals%>
-
-                    <style>
-                        /*   p {
+                <style>
+                    /*   p {
                             margin: 10%;
                         }
                         
@@ -79,5 +80,5 @@
                             width: 80%;
                             margin-left: 2%;
                         }*/
-                    </style>
-                    <%- include("../partials/footer") %>
+                </style>
+                <%- include("../partials/footer") %>

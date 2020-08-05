@@ -3,6 +3,10 @@ var router = express.Router();
 var categorie = require("../models/categorie")
 var product = require("../models/product")
 
+function sayHi() {
+    console.log('Hello');
+}
+
 
 //Displaying Active Categorie and products
 var Allcategorie = async function(req, res) {
@@ -25,7 +29,10 @@ var Allcategorie = async function(req, res) {
                 }
             }
         ]).sort({ created_date: -1 })
-        res.render("ecom", { allcat: allcat, products: products })
+        let Parser = require('rss-parser');
+        let parser = new Parser();
+        var feed = await parser.parseURL(' http://feeds.bbci.co.uk/news/technology/rss.xml');
+        res.render("ecom", { allcat: allcat, products: products, feed: feed })
         return categorie.find({})
 
     } catch (e) {

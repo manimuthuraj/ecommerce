@@ -1,6 +1,10 @@
 <%- include("../partials/header") %>
     <link rel="stylesheet" href="/css/cart.css" type="text/css">
-    <h1>cart</h1>
+    <h1> <img src="https://img.icons8.com/color/48/000000/shopping-cart.png" />cart</h1>
+    <div class="card">
+        <img src="https://img.icons8.com/windows/32/000000/bill.png" /> subtotal:<img src="https://img.icons8.com/color/18/000000/rupee--v1.png" />
+        <%=subtotal%>
+    </div>
     <%cart.forEach(function(x){%>
         <div class="thumbnail" style="width: 40%;height: 5%;">
             <div class="caption">
@@ -11,7 +15,7 @@
                 <p> quantity:
                     <%=x.quantity%>
                 </p>
-                price:
+                price<img src="https://img.icons8.com/color/18/000000/rupee--v1.png" />
                 <%=x.price%>
                     total:
                     <%=x.total%>
@@ -26,10 +30,6 @@
             </div>
         </div>
         <%})%>
-            <div class="card">
-                subtotal:
-                <%=subtotal%>
-            </div>
 
             <%if(Object.keys(cart).length === 0){%>
                 <h1 id="message">&#128151 No products yet add cart to see &#128151 </h1>
