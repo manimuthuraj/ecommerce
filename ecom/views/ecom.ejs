@@ -51,6 +51,8 @@
             </li>
         </ul>
     </div>
+    <p id="mes"></p>
+
     <hr>
 
     <div class="container" id="con">
@@ -93,6 +95,17 @@
     <div id="se">
         <div id="se2"></div>
     </div>
+    <p id="mes"></p>
 
     <script src="/js/ecom.js"></script>
+    <script>
+        var eventSource = new EventSource("http://localhost:3000/message")
+        eventSource.onmessage = function(event) {
+            document.getElementById("mes").innerHTML = event.data
+                //window.alert(event.data)
+        }
+        eventSource.onerror = function() {
+            eventSource.close()
+        }
+    </script>
     <%- include("./partials/footer") %>

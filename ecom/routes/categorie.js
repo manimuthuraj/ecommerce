@@ -64,4 +64,21 @@ router.get("/search", controller.searchCategorie)
 // sort price high to low,low to high
 router.get("/sort", controller.sortCategorie)
 
+router.get("/message", function(req, res) {
+    res.set({
+        "connection": "keep-alive",
+        "content-type": "text/event-stream"
+    })
+    setInterval(function() {
+            if (req.user) {
+                var data = "Big indian sale"
+            } else {
+                data = " "
+            }
+
+            res.write('data:' + data + '\n\n')
+        }, 5000)
+        // var data = { message: 'hi' }
+        // res.write(JSON.stringify(data))
+})
 module.exports = router

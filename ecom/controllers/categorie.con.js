@@ -4,7 +4,12 @@ var categorie = require("../models/categorie")
 var product = require("../models/product")
 
 function sayHi() {
-    console.log('Hello');
+    let Parser = require('rss-parser');
+    let parser = new Parser();
+
+    var feeds = parser.parseURL(' http://feeds.bbci.co.uk/news/technology/rss.xml');
+    //console.log(feeds)
+    return feeds
 }
 
 
@@ -31,6 +36,9 @@ var Allcategorie = async function(req, res) {
         ]).sort({ created_date: -1 })
         let Parser = require('rss-parser');
         let parser = new Parser();
+        // var a = setInterval(sayHi, 10000);
+        // //var a = await sayHi()
+        // console.log(a, 1)
         var feed = await parser.parseURL(' http://feeds.bbci.co.uk/news/technology/rss.xml');
         res.render("ecom", { allcat: allcat, products: products, feed: feed })
         return categorie.find({})
