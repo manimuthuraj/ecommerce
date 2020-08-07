@@ -97,12 +97,37 @@
     </div>
     <p id="mes"></p>
 
+
+    <form id="forms" method="GET">
+        <input type="text" name="name">
+        <button>sub</button>
+    </form>
     <script src="/js/ecom.js"></script>
     <script>
+        $(function() {
+            $("#form3").submit(function(event) {
+                event.preventDefault();
+                $.ajax({
+                    type: 'GET',
+                    url: '/message',
+                    data: $('#forms').serialize(),
+                    datatype: 'jsonp',
+                    success: function(k) {
+                        var t = $('#con')
+                        var se = $('#se')
+                        t.html('')
+                        se.html('')
+                        successq(k);
+                    }
+                });
+            });
+        });
+
         var eventSource = new EventSource("http://localhost:3000/message")
         eventSource.onmessage = function(event) {
-            document.getElementById("mes").innerHTML = event.data
-                //window.alert(event.data)
+            // document.getElementById("mes").innerHTML = event.data
+            window.alert(JSON.parse(event.data).message + " " + JSON.parse(event.data).cat)
+                //  console.log(event.data)
         }
         eventSource.onerror = function() {
             eventSource.close()

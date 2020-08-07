@@ -90,11 +90,25 @@ async function mailPw(gm, pw, user) {
     }
 }
 
+
+function sseFunction(ssedata) {
+    if (req.user) {
+        var data = ssedata
+        console.log(data)
+    } else {
+        data = " "
+    }
+
+    res.write('data:' + data + '\n\n')
+}
+
+
 //exporting methods
 module.exports = {
     isAdmin,
     islogedin,
     mail,
     mailPw,
-    logedin
+    logedin,
+    sseFunction
 }

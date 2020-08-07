@@ -69,16 +69,17 @@ router.get("/message", function(req, res) {
         "connection": "keep-alive",
         "content-type": "text/event-stream"
     })
-    setInterval(function() {
-            if (req.user) {
-                var data = "Big indian sale"
-            } else {
-                data = " "
-            }
+    setInterval(function() { sseFunction() }, 10000)
 
-            res.write('data:' + data + '\n\n')
-        }, 5000)
-        // var data = { message: 'hi' }
-        // res.write(JSON.stringify(data))
+    function sseFunction() {
+        var data = {
+            message: 'Big Billion day sale',
+            cat: "grap ur dream phone"
+        }
+
+        res.write('data:' + JSON.stringify(data) + '\n\n')
+    }
+    // var data = { message: 'hi' }
+    // res.write(JSON.stringify(data))
 })
 module.exports = router
